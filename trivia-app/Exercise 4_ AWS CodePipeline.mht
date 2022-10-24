@@ -1,0 +1,1140 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html
+Subject: Exercise 4: AWS CodePipeline
+Date: Mon, 24 Oct 2022 05:48:55 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--eyT79Rt1VxaE0weYuuDN2iZC83OsU0q8pYWVqEJbNS----"
+
+
+------MultipartBoundary--eyT79Rt1VxaE0weYuuDN2iZC83OsU0q8pYWVqEJbNS----
+Content-Type: text/html
+Content-ID: <frame-43819098A92090F4D8BCBAE49AF2874D@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html
+
+<!DOCTYPE html><html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"" xml:l=
+ang=3D"" data-lt-installed=3D"true"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"te=
+xt/css" href=3D"cid:css-95ce3d87-78dc-480c-bfee-e9cb1043cbfe@mhtml.blink" /=
+>
+ =20
+  <meta name=3D"generator" content=3D"pandoc">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0, user-scalable=3Dyes">
+  <title>Exercise 4: AWS CodePipeline</title>
+ =20
+ =20
+
+
+</head><body>
+<p><em>[version_1.0]</em></p>
+<div style=3D"background-color: #FFD2D2; padding: 15px; margin-bottom: 25px=
+">
+<h3>
+<span class=3D"fa fa-info-circle"></span> Note
+</h3>
+<p>The exercises in this course will have an associated charge in your AWS =
+account. In this exercise, you will create the following resources:</p>
+<ul>
+<li>AWS CodePipeline pipeline</li>
+</ul>
+<p><strong>This exercise includes instructions to delete all the resources =
+that you created in the exercises.</strong></p>
+<p>Familiarize yourself with <strong><a href=3D"https://aws.amazon.com/code=
+pipeline/pricing/" target=3D"_blank">AWS CodePipeline pricing</a></strong> =
+and the <strong><a href=3D"https://aws.amazon.com/free/" target=3D"_blank">=
+AWS Free Tier</a></strong>.</p>
+</div>
+<h1 id=3D"exercise-creating-a-pipeline">Exercise: Creating a Pipeline</h1>
+<p>In this exercise, you will first start by using AWS CodePipeline to crea=
+te a new pipeline. You will create a new feature branch in your repository =
+and edit some application code. You will then commit the changes to your fe=
+ature branch and merge the feature branch into your main branch.</p>
+<h2 id=3D"task-1-creating-a-pipeline">Task 1: Creating a pipeline</h2>
+<p>In this task, you use AWS CodePipeline to create a pipeline.</p>
+<ol type=3D"1">
+<li><p>In the console, choose <strong>Services</strong>, and search for and=
+ select <strong>CodePipeline</strong>.</p></li>
+<li><p>Choose <strong>Create pipeline</strong>.</p></li>
+<li><p>For <strong>Pipeline name</strong>, enter <code>trivia-pipeline</cod=
+e> and choose <strong>Next</strong>.</p></li>
+<li><p>In the <strong>Add source stage</strong> step, configure the followi=
+ng settings:</p>
+<ul>
+<li><strong>Source provider</strong>: <em>AWS CodeCommit</em></li>
+<li><strong>Repository name</strong>: <em>trivia-app</em></li>
+<li><strong>Branch name</strong>: <em>main</em></li>
+</ul></li>
+<li><p>Choose <strong>Next</strong>.</p></li>
+<li><p>In the <strong>Add build stage</strong> step, configure the followin=
+g settings.</p>
+<ul>
+<li><strong>Build provider</strong>: <em>AWS CodeBuild</em></li>
+<li><strong>Project name</strong>: <em>trivia-unittests</em></li>
+</ul></li>
+<li><p>Choose <strong>Next</strong>.</p></li>
+<li><p>In the <strong>Add deploy stage</strong> step, choose <strong>Skip d=
+eploy stage</strong> and then choose <strong>Skip</strong>.</p></li>
+<li><p>In the <strong>Review</strong> step, choose <strong>Create pipeline<=
+/strong>. You should see a <em>Success</em> message.</p></li>
+</ol>
+<h2 id=3D"task-2-creating-a-feature-branch">Task 2: Creating a feature bran=
+ch</h2>
+<p>In this task, you create a new feature branch in your AWS CodeCommit rep=
+ository.</p>
+<ol type=3D"1">
+<li><p>In a separate browser tab, switch to the <strong>AWS Cloud9</strong>=
+ development environment. Make sure that you are in the <code>trivia-app</c=
+ode> directory.</p>
+<div class=3D"sourceCode" id=3D"cb1"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock0"><code class=3D"sourceCode bash"><span id=3D"cb1-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-4.html#cb1-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"bu">cd</span> ~/environment/trivia-app</span></code></pre><button class=
+=3D"btn copybtn" data-clipboard-target=3D"#codeblock0"><img class=3D"clipbo=
+ard" src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-=
+MO-DevOps-C1/images/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"><=
+/button></div>
+<p>Create a feature branch by running the following command:</p>
+<div class=3D"sourceCode" id=3D"cb2"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock1"><code class=3D"sourceCode bash"><span id=3D"cb2-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-4.html#cb2-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"fu">git</span> checkout <span class=3D"at">-b</span> feature-bonus-scor=
+es</span></code></pre><button class=3D"btn copybtn" data-clipboard-target=
+=3D"#codeblock1"><img class=3D"clipboard" src=3D"https://aws-tc-largeobject=
+s.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" wid=
+th=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p>You should see that you created a new branch and switched to that branch=
+:</p>
+<pre><code>Switched to a new branch 'feature-bonus-scores'</code></pre></li=
+>
+</ol>
+<h2 id=3D"task-3-editing-the-code">Task 3: Editing the code</h2>
+<p>In this task, you edit the code to implement a bonus scores feature.</p>
+<ol type=3D"1">
+<li><p>Open the <code>trivia-app/back-end-python/gameactions/app.py</code> =
+file.</p></li>
+<li><p>In the <code>trivia_calculate_scores</code> function, locate the cod=
+e where <code>last_answer</code> is set.</p></li>
+<li><p>On the next line, add code to set the <code>bonus</code> variable:</=
+p>
+<div class=3D"sourceCode" id=3D"cb4"><pre class=3D"sourceCode python" id=3D=
+"codeblock2"><code class=3D"sourceCode python"><span id=3D"cb4-1"><a href=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C1/exercise-4.html#cb4-1" aria-hidden=3D"true" tabindex=3D"-1"></a>last_a=
+nswer <span class=3D"op">=3D</span> connection[<span class=3D"st">"lastAnsw=
+er"</span>] <span class=3D"cf">if</span> <span class=3D"st">"lastAnswer"</s=
+pan> <span class=3D"kw">in</span> connection <span class=3D"cf">else</span>=
+ <span class=3D"st">""</span></span>
+<span id=3D"cb4-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb4-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>bonus <span class=3D"op">=3D</span> question[<span clas=
+s=3D"st">"bonus"</span>] <span class=3D"cf">if</span> <span class=3D"st">"b=
+onus"</span> <span class=3D"kw">in</span> question <span class=3D"cf">else<=
+/span> <span class=3D"dv">0</span></span></code></pre><button class=3D"btn =
+copybtn" data-clipboard-target=3D"#codeblock2"><img class=3D"clipboard" src=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C1/images/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button>=
+</div></li>
+<li><p>You also need to add the <code>bonus</code> variable to the calculat=
+ion logic. Update the code incrementing <code>score</code> so that it inclu=
+des <code>bonus</code>.</p>
+<p>Code before:</p>
+<div class=3D"sourceCode" id=3D"cb5"><pre class=3D"sourceCode python" id=3D=
+"codeblock3"><code class=3D"sourceCode python"><span id=3D"cb5-1"><a href=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C1/exercise-4.html#cb5-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span =
+class=3D"cf">if</span> last_question_id <span class=3D"op">=3D=3D</span> qu=
+estion[<span class=3D"st">"id"</span>] <span class=3D"kw">and</span> last_a=
+nswer <span class=3D"op">=3D=3D</span> question[<span class=3D"st">"answer"=
+</span>]:</span>
+<span id=3D"cb5-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb5-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    score <span class=3D"op">+=3D</span> <span class=3D=
+"dv">20</span></span></code></pre><button class=3D"btn copybtn" data-clipbo=
+ard-target=3D"#codeblock3"><img class=3D"clipboard" src=3D"https://aws-tc-l=
+argeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboar=
+d.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p>Code after:</p>
+<div class=3D"sourceCode" id=3D"cb6"><pre class=3D"sourceCode python" id=3D=
+"codeblock4"><code class=3D"sourceCode python"><span id=3D"cb6-1"><a href=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C1/exercise-4.html#cb6-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span =
+class=3D"cf">if</span> last_question_id <span class=3D"op">=3D=3D</span> qu=
+estion[<span class=3D"st">"id"</span>] <span class=3D"kw">and</span> last_a=
+nswer <span class=3D"op">=3D=3D</span> question[<span class=3D"st">"answer"=
+</span>]:</span>
+<span id=3D"cb6-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb6-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>        score <span class=3D"op">+=3D</span> <span clas=
+s=3D"dv">20</span> <span class=3D"op">+</span> bonus</span></code></pre><bu=
+tton class=3D"btn copybtn" data-clipboard-target=3D"#codeblock4"><img class=
+=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.co=
+m/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" alt=3D"Copy to cl=
+ipboard"></button></div></li>
+<li><p>Save the file.</p></li>
+<li><p>You also need to update the unit tests code so that it tests the new=
+ bonus score. Open the <code>trivia-app/back-end-python/tests/unit/test_han=
+dler.py</code> file.</p></li>
+<li><p>Replace <code>SCORES_EVENT</code> with a new event that includes a b=
+onus score:</p>
+<div class=3D"sourceCode" id=3D"cb7"><pre class=3D"sourceCode python" id=3D=
+"codeblock5"><code class=3D"sourceCode python"><span id=3D"cb7-1"><a href=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C1/exercise-4.html#cb7-1" aria-hidden=3D"true" tabindex=3D"-1"></a>SCORES=
+_EVENT <span class=3D"op">=3D</span> {</span>
+<span id=3D"cb7-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb7-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"st">"gameid"</span> : <span class=3D"st"=
+>"01234567012301230123012345678901"</span>,</span>
+<span id=3D"cb7-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb7-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"st">"questions"</span> : [</span>
+<span id=3D"cb7-4"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb7-4" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    { <span class=3D"st">"id"</span> : <span class=3D"s=
+t">"q-1111"</span>, <span class=3D"st">"question"</span> : <span class=3D"s=
+t">"Good question?"</span>, <span class=3D"st">"answer"</span> : <span clas=
+s=3D"st">"Yes"</span>, <span class=3D"st">"bonus"</span>: <span class=3D"dv=
+">20</span>},</span>
+<span id=3D"cb7-5"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb7-5" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>],</span>
+<span id=3D"cb7-6"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb7-6" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"st">"iterator"</span> : { <span class=3D=
+"st">"questionpos"</span> : <span class=3D"dv">0</span> }</span>
+<span id=3D"cb7-7"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb7-7" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>}</span></code></pre><button class=3D"btn copybtn" data=
+-clipboard-target=3D"#codeblock5"><img class=3D"clipboard" src=3D"https://a=
+ws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/c=
+lipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p>Save the file.</p></li>
+<li><p>Find the <code>test_trivia_calculate_scores_correct</code> section a=
+nd change the assert statements to expect a score of 40.</p>
+<div class=3D"sourceCode" id=3D"cb8"><pre class=3D"sourceCode python" id=3D=
+"codeblock6"><code class=3D"sourceCode python"><span id=3D"cb8-1"><a href=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C1/exercise-4.html#cb8-1" aria-hidden=3D"true" tabindex=3D"-1"></a>app.TA=
+BLE.update_item.assert_called_with(</span>
+<span id=3D"cb8-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    Key<span class=3D"op">=3D</span>{<span class=3D"st"=
+>'gameId'</span>: <span class=3D"st">'01234567012301230123012345678901'</sp=
+an>, <span class=3D"st">'connectionId'</span>: <span class=3D"st">'connecti=
+on-1'</span>},</span>
+<span id=3D"cb8-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    AttributeUpdates<span class=3D"op">=3D</span>{<span=
+ class=3D"st">'score'</span>: {<span class=3D"st">'Value'</span>: <span cla=
+ss=3D"dv">40</span>, <span class=3D"st">'Action'</span>: <span class=3D"st"=
+>'PUT'</span>}}</span>
+<span id=3D"cb8-4"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-4" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>)</span>
+<span id=3D"cb8-5"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-5" aria-hidden=3D"true" =
+tabindex=3D"-1"></a></span>
+<span id=3D"cb8-6"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-6" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>app.MANAGEMENT.post_to_connection.assert_has_calls([</s=
+pan>
+<span id=3D"cb8-7"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-7" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    mock.call(Data<span class=3D"op">=3D</span><span cl=
+ass=3D"st">'{"action": "playerlist", "players": [{"connectionId": "connecti=
+on-1", "playerName": "AliceBlue", "score": 40, "currentPlayer": true}]}'</s=
+pan>, ConnectionId<span class=3D"op">=3D</span><span class=3D"st">'connecti=
+on-1'</span>),</span>
+<span id=3D"cb8-8"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-8" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    mock.call(Data<span class=3D"op">=3D</span><span cl=
+ass=3D"st">'{"action": "gameover"}'</span>, ConnectionId<span class=3D"op">=
+=3D</span><span class=3D"st">'connection-1'</span>)</span>
+<span id=3D"cb8-9"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb8-9" aria-hidden=3D"true" =
+tabindex=3D"-1"></a>    ])</span></code></pre><button class=3D"btn copybtn"=
+ data-clipboard-target=3D"#codeblock6"><img class=3D"clipboard" src=3D"http=
+s://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/ima=
+ges/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div></=
+li>
+<li><p>Save the file.</p></li>
+<li><p>Verify that the code is stable by running the unit test.</p>
+<div class=3D"sourceCode" id=3D"cb9"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock7"><code class=3D"sourceCode bash"><span id=3D"cb9-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-4.html#cb9-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"ex">./local_build.sh</span></span></code></pre><button class=3D"btn cop=
+ybtn" data-clipboard-target=3D"#codeblock7"><img class=3D"clipboard" src=3D=
+"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C=
+1/images/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></d=
+iv>
+<p>You should see that everything passed.</p></li>
+<li><p>(<em>Optional</em>) You can verify that the coverage is still 100 pe=
+rcent by previewing the <code>htmlcov/index.html</code> file.</p></li>
+</ol>
+<h2 id=3D"task-4-committing-and-merging-the-new-code">Task 4: Committing an=
+d merging the new code</h2>
+<p>In this final task, you commit the new code to your feature branch in AW=
+S CodeCommit. You then merge the changes into the <code>main</code> branch.=
+</p>
+<ol type=3D"1">
+<li><p>In the <strong>AWS Cloud9</strong> terminal, view the status of your=
+ git repository by running the following command:</p>
+<div class=3D"sourceCode" id=3D"cb10"><pre class=3D"sourceCode bash" id=3D"=
+codeblock8"><code class=3D"sourceCode bash"><span id=3D"cb10-1"><a href=3D"=
+https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1=
+/exercise-4.html#cb10-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span cla=
+ss=3D"fu">git</span> status</span></code></pre><button class=3D"btn copybtn=
+" data-clipboard-target=3D"#codeblock8"><img class=3D"clipboard" src=3D"htt=
+ps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/im=
+ages/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p>You should see that status of the two files changed to <em>not staged fo=
+r commit</em>.</p>
+<pre><code>modified:   back-end-python/gameactions/app.py
+modified:   back-end-python/tests/unit/test_handler.py</code></pre></li>
+<li><p>Add the files, create a commit, and push the changes to the <code>or=
+igin</code> remote.</p>
+<div class=3D"sourceCode" id=3D"cb12"><pre class=3D"sourceCode bash" id=3D"=
+codeblock9"><code class=3D"sourceCode bash"><span id=3D"cb12-1"><a href=3D"=
+https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1=
+/exercise-4.html#cb12-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span cla=
+ss=3D"fu">git</span> add <span class=3D"pp">*</span></span>
+<span id=3D"cb12-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb12-2" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> commit <span class=3D"a=
+t">-m</span> <span class=3D"st">"new bonus score feature"</span></span>
+<span id=3D"cb12-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb12-3" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> push origin feature-bon=
+us-scores</span></code></pre><button class=3D"btn copybtn" data-clipboard-t=
+arget=3D"#codeblock9"><img class=3D"clipboard" src=3D"https://aws-tc-largeo=
+bjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg=
+" width=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p>As of now, you haven=E2=80=99t made any changes to the <code>main</code>=
+ branch yet.</p></li>
+<li><p>Switch back to the <strong>CodePipeline</strong> tab.</p></li>
+<li><p>Choose <strong>Services</strong> and then select <strong>CodeCommit<=
+/strong>.</p></li>
+<li><p>In CodeCommit, open the <code>trivia-app</code> repository and in th=
+e navigation pane, choose <strong>Commits</strong>.</p></li>
+<li><p>On the right, view the bonus score commit by opening the dropdown me=
+nu with <code>main</code> and selecting <code>feature-bonus-scores</code>.<=
+/p></li>
+<li><p>At the top of the window, choose the <code>trivia-app</code> breadcr=
+umb.</p></li>
+<li><p>Choose <strong>Create pull request</strong>.</p></li>
+<li><p>For <strong>Destination</strong>, keep <code>main</code> selected an=
+d for <strong>Source</strong>, choose <code>feature-bonus-scores</code>.</p=
+></li>
+<li><p>Choose <strong>Compare</strong>. You can scroll down to see the code=
+ changes that you made.</p></li>
+<li><p>In <strong>Details &gt; Title</strong>, enter <code>New feature: Bon=
+us scoring</code>. Choose <strong>Create pull request</strong>.</p></li>
+<li><p>Choose <strong>Merge</strong>.</p></li>
+<li><p>Keep both <strong>Fast forward merge</strong> and <strong>Delete sou=
+rce branch feature-bonus-scores after merging?</strong> selected. Choose <s=
+trong>Merge pull request</strong>.</p></li>
+<li><p>In the navigation pane, see the new merge commit by choosing <strong=
+>Commits</strong>.</p></li>
+<li><p>In the navigation pane, open the <strong>CodePipeline</strong> conso=
+le by choosing <strong>Pipeline &gt; Pipelines</strong>.</p></li>
+<li><p>View the pipeline details by opening <strong>trivia-pipeline</strong=
+>. In the <strong>Source</strong> section, you should see the new commit: <=
+em>Source: new bonus score feature</em></p></li>
+<li><p>Review the <strong>Build</strong> section. The recently merged commi=
+t on the <code>main</code> branch triggered a pipeline build.</p>
+<figure>
+<img src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-=
+MO-DevOps-C1/images/codepipeline-build.png" alt=3D"pipeline_build"><figcapt=
+ion aria-hidden=3D"true">pipeline_build</figcaption>
+</figure></li>
+<li><p>Switch back to the <strong>AWS Cloud9</strong> tab.</p></li>
+<li><p>The new features you committed have been merged to <code>main</code>=
+. Update the main branch locally by running the following commands:</p>
+<div class=3D"sourceCode" id=3D"cb13"><pre class=3D"sourceCode bash" id=3D"=
+codeblock10"><code class=3D"sourceCode bash"><span id=3D"cb13-1"><a href=3D=
+"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C=
+1/exercise-4.html#cb13-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span cl=
+ass=3D"fu">git</span> checkout main</span>
+<span id=3D"cb13-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb13-2" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> pull origin main</span>
+<span id=3D"cb13-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-4.html#cb13-3" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> log</span></code></pre>=
+<button class=3D"btn copybtn" data-clipboard-target=3D"#codeblock10"><img c=
+lass=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaw=
+s.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" alt=3D"Copy t=
+o clipboard"></button></div>
+<p>In the Git log, you should see the <em>new bonus score feature</em> comm=
+it.</p></li>
+</ol>
+<h2 id=3D"task-5-deleting-all-exercise-resources">Task 5: Deleting all exer=
+cise resources</h2>
+<p>Congratulations! You have successfully completed the course project. In =
+this task, you delete the AWS resources that you created for this project.<=
+/p>
+<ol type=3D"1">
+<li>Open the <strong>AWS CodePipeline</strong> console.
+<ul>
+<li>Delete the <strong>trivia-pipeline</strong> pipeline.</li>
+<li>Delete the <strong>trivia-unittests</strong> build project.</li>
+</ul></li>
+<li>Open the <strong>AWS CodeCommit</strong> console.
+<ul>
+<li>Delete the <strong>trivia-app</strong> repository.</li>
+</ul></li>
+<li>Open the <strong>Amazon Simple Storage Service (Amazon S3)</strong> con=
+sole.
+<ul>
+<li>Empty and delete the <strong>-trivia-app-bucket</strong>.</li>
+<li>Empty and delete the <strong>aws-sam-cli-managed-default-samclisourcebu=
+cket-</strong> bucket.</li>
+<li>Empty and delete the <strong>codepipeline-</strong> bucket.</li>
+</ul></li>
+<li>Open the <strong>AWS CloudFormation</strong> console.
+<ul>
+<li>Delete the <strong>trivia-app</strong> stack.</li>
+<li>Delete the <strong>aws-sam-cli-managed-default</strong> stack.</li>
+</ul></li>
+<li>Open the <strong>AWS Identity and Access Management (IAM)</strong> cons=
+ole.
+<ul>
+<li>Delete the following IAM roles.
+<ul>
+<li><strong>AWSCodePipelineServiceRole-&lt;region&gt;-trivia-pipeline</stro=
+ng></li>
+<li><strong>codebuild-trivia-unittests-service-role</strong></li>
+<li><strong>cwe-role-region-trivia-pipeline</strong></li>
+</ul></li>
+</ul></li>
+<li>Open the <strong>AWS Cloud9</strong> console.
+<ul>
+<li>Delete the <strong>trivia-game</strong> environment.</li>
+</ul></li>
+</ol>
+
+
+<footer>
+    <p>=C2=A9 2021 Amazon Web Services, Inc. or its affiliates. All rights =
+reserved. This work may not be reproduced or redistributed, in whole or in =
+part, without prior written permission from Amazon Web Services, Inc. Comme=
+rcial copying, lending, or selling is prohibited. Corrections, feedback, or=
+ other questions? Contact us at <a href=3D"https://support.aws.amazon.com/#=
+/contacts/aws-training" target=3D"_blank">https://support.aws.amazon.com/#/=
+contacts/aws-training</a>. All trademarks are the property of their owners.=
+</p>
+</footer>
+
+</body></html>
+------MultipartBoundary--eyT79Rt1VxaE0weYuuDN2iZC83OsU0q8pYWVqEJbNS----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-95ce3d87-78dc-480c-bfee-e9cb1043cbfe@mhtml.blink
+
+@charset "utf-8";
+
+html, body, footer { font-family: "Open Sans", "Helvetica Neue", Helvetica,=
+ Arial, sans-serif; margin: 1em; }
+
+img:not(.clipboard) { max-width: 100%; height: auto; width: auto; }
+
+button.copybtn { transition: opacity 0.3s ease-in-out 0s; opacity: 0; paddi=
+ng: 2px 6px; position: absolute; right: 4px; top: 4px; }
+
+div.sourceCode:hover .copybtn, div.sourceCode .copybtn:focus { opacity: 0.3=
+; }
+
+div.sourceCode .copybtn:hover { opacity: 1; }
+
+div.sourceCode { position: relative; }
+
+.xmodule_display.xmodule_HtmlBlock ol { padding: 0px 0px 0px 2em !important=
+; }
+
+.xmodule_display.xmodule_HtmlBlock ul { padding: 0px 0px 0px 2em !important=
+; }
+
+code { border-radius: 4px; padding: 2px 4px !important; background-color: r=
+gb(238, 238, 238) !important; }
+
+pre code { display: block; overflow-x: auto; margin: 0px 0px 10px; font-siz=
+e: 13px; line-height: 1.42857; word-break: break-all; overflow-wrap: break-=
+word; border: 1px solid rgb(204, 204, 204); border-radius: 4px; white-space=
+: pre; padding: 9.5px !important; background-color: rgb(245, 245, 245) !imp=
+ortant; }
+
+pre code span.al { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.an { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.at { color: rgb(125, 144, 41); }
+
+pre code span.bn { color: rgb(64, 160, 112); }
+
+pre code span.bu { color: rgb(6, 40, 126); }
+
+pre code span.cf { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.ch { color: rgb(64, 112, 160); }
+
+pre code span.cn { color: rgb(136, 0, 0); }
+
+pre code span.co { color: rgb(96, 160, 176); font-style: italic; }
+
+pre code span.cv { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.do { color: rgb(186, 33, 33); font-style: italic; }
+
+pre code span.dt { color: rgb(144, 32, 0); }
+
+pre code span.dv { color: rgb(64, 160, 112); }
+
+pre code span.er { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.ex { color: rgb(6, 40, 126); }
+
+pre code span.fl { color: rgb(64, 160, 112); }
+
+pre code span.fu { color: rgb(6, 40, 126); }
+
+pre code span.im { }
+
+pre code span.in { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.kw { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.op { color: rgb(102, 102, 102); }
+
+pre code span.ot { color: rgb(0, 112, 32); }
+
+pre code span.pp { color: rgb(188, 122, 0); }
+
+pre code span.sc { color: rgb(64, 112, 160); }
+
+pre code span.ss { color: rgb(187, 102, 136); }
+
+pre code span.st { color: rgb(64, 112, 160); }
+
+pre code span.va { color: rgb(25, 23, 124); }
+
+pre code span.vs { color: rgb(64, 112, 160); }
+
+pre code span.wa { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+footer { padding-top: 3em; font-style: italic; font-size: 0.9em; }
+------MultipartBoundary--eyT79Rt1VxaE0weYuuDN2iZC83OsU0q8pYWVqEJbNS----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg
+
+<svg height=3D"1024" width=3D"896" xmlns=3D"http://www.w3.org/2000/svg">
+  <path d=3D"M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448=
+L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H=
+128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V1=
+92c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64=
+ 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-2=
+9-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+</svg>=0A
+------MultipartBoundary--eyT79Rt1VxaE0weYuuDN2iZC83OsU0q8pYWVqEJbNS----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/codepipeline-build.png
+
+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
+f/8h64frB2IOtB5kH6z/0f7HDYcYh8obkIYZDT2N4kZVU3pTx+Exh1ubA5sP/TTyp51HrI9UHzU+
+uuwY9djCY/3HS473tshauk/knnjYOrn19snxJ6+2jWtrPxVz6szPkT+fPM05ffxM0JkjZwPOHj7H
+Ptd43vd8wwWfC4d+8fnlULtve8NFv4tNl/wvNXeM7jh2OeTyiSvhV36+yrt6/lrctY7rKddv3si8
+obopvPn0VsGtF78W/9p3e94dwp3yu/p3K++Z36v5zfm3fSpf1dH74fcvPEh6cPuh4OGzR4pHHzoX
+PqY/rnxi9aT2qefTI12RXZd+n/B75zPZs77usj8M/tjw3On5j3+G/nmhZ3xP5wv5i/6/lrw0fbnz
+lfer1t6E3nuvC1/3vSl/a/p21zv2u9Pv094/6Zv2gfSh6qPzx+ZPMZ/u9Bf298v4cv7AUQCDDc3J
+AeCvnQDQ0wFgXILnhwmaO9+AIJp76gAC/wlr7oUD4gtAPezUx3VuCwD7YXOYB7lhUx/Vk0MB6uU1
+1LSiyPHy1HDR4I2H8La//6UFAKRmAD7K+/v7Nvb3f4R3VOwWAC1TNXdNtRDh3WCL+q4Lbq2aOA98
+JZp76Bc5ft0DdQTe4Ov+X4gviYjBG1BkAAAAlmVYSWZNTQAqAAAACAAFARIAAwAAAAEAAQAAARoA
+BQAAAAEAAABKARsABQAAAAEAAABSASgAAwAAAAEAAgAAh2kABAAAAAEAAABaAAAAAAAAAJAAAAAB
+AAAAkAAAAAEAA5KGAAcAAAASAAAAhKACAAQAAAABAAABUKADAAQAAAABAAABAwAAAABBU0NJSQAA
+AFNjcmVlbnNob3Sii9tbAAAACXBIWXMAABYlAAAWJQFJUiTwAAACc2lUWHRYTUw6Y29tLmFkb2Jl
+LnhtcAAAAAAAPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iWE1Q
+IENvcmUgNS40LjAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5
+OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91
+dD0iIgogICAgICAgICAgICB4bWxuczpleGlmPSJodHRwOi8vbnMuYWRvYmUuY29tL2V4aWYvMS4w
+LyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8i
+PgogICAgICAgICA8ZXhpZjpVc2VyQ29tbWVudD5TY3JlZW5zaG90PC9leGlmOlVzZXJDb21tZW50
+PgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+ODQwPC9leGlmOlBpeGVsWERpbWVuc2lv
+bj4KICAgICAgICAgPGV4aWY6UGl4ZWxZRGltZW5zaW9uPjY0ODwvZXhpZjpQaXhlbFlEaW1lbnNp
+b24+CiAgICAgICAgIDx0aWZmOk9yaWVudGF0aW9uPjE8L3RpZmY6T3JpZW50YXRpb24+CiAgICAg
+ICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgIDwv
+cmRmOkRlc2NyaXB0aW9uPgogICA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgo3x0YDAABAAElEQVR4
+AexdB2BVRdb+0nsvtAAhkNB7BxUVEXvFrqx1dV1XXd3i2t3V1XX317V3seDaC6KIINIJvYSEkhDS
+SCGF9F74zzf3TfIICYSalzADL/feuVO/O/e7Z87MnHEqKS3dDwdwDQ0N8PLywvc/zMOLr81SJfrj
+72/BJRddgMrKSjg7OztAKU0RDAIGAYNAEwKGlZqwMGcGAYOAQeCIEDAEekRwmcAGAYOAQaAJgXYj
+0P3794Pddjm02TGsFecIIrU5dRPQIGAQMAgcGQLtQqAkT+o0PT09pLRtIUMnW632w9PDQ8VtOBLm
+PTJMTGiDgEHAINAmBE46gVKC9BASrKquxuYt8XBxcYGTkybI1sq8X4Vh2C1b41FdXQNPd3cljbYW
+w/gbBAwCBoETjcBJJVBKniTB0tJSfP7lN7jq9gcRu3ot3N3dlCDK+/ZUynP60THMKgk747YH8dU3
+c1BaXq7S0vdVIPPHIGAQMAicRATah0DLyrFsxVoMjeqB/7z8NlbFroUHu/NClg0NlDahfjwns1Ji
+XblqDf5Pwg6J6o7Fy2JRVlZmCPQkNhSTlUHAIHAwAieVQKn3rKmpQfduXfH3x/6M4OBAuLu54LkX
+XsfadesVUbKIJE6LPAEPdw+sWbsez7/4hgobEhyEpx79E7p16aLSMvNDD36oxscgYBA4OQicVAJl
+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
+
+------MultipartBoundary--eyT79Rt1VxaE0weYuuDN2iZC83OsU0q8pYWVqEJbNS------

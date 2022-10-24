@@ -1,0 +1,433 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-2.html
+Subject: Exercise 2: Testing
+Date: Mon, 24 Oct 2022 04:42:26 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----"
+
+
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----
+Content-Type: text/html
+Content-ID: <frame-248A374F17BE3A023D11198BCC724A0B@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-2.html
+
+<!DOCTYPE html><html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"" xml:l=
+ang=3D"" data-lt-installed=3D"true"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"te=
+xt/css" href=3D"cid:css-fc2ba0b9-6689-46ff-bfdb-68251f9825c8@mhtml.blink" /=
+>
+ =20
+  <meta name=3D"generator" content=3D"pandoc">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0, user-scalable=3Dyes">
+  <title>Exercise 2: Testing</title>
+ =20
+ =20
+
+
+</head><body>
+<p><em>[version_1.0]</em></p>
+<h1 id=3D"exercise-testing-the-application">Exercise: Testing the Applicati=
+on</h1>
+<p>In this exercise, you will return to the AWS Cloud9 instance and run the=
+ local build for the project. The local build contains linting (or static a=
+nalysis) of the code and unit tests. Next, you will run an integration test=
+. The integration test finds the API Gateway Websocket endpoint, and it sim=
+ulates a player completing a game. You will then add a simple feature to th=
+e code. Finally, you will fix the unit tests and commit the changes to your=
+ repository.</p>
+<h2 id=3D"task-1-running-unit-tests">Task 1: Running unit tests</h2>
+<p>In this task, you run unit tests against the application code. You then =
+view the reports that are outputted from these tests.</p>
+<ol type=3D"1">
+<li><p>In your <strong>AWS Cloud9</strong> terminal, make sure you are stil=
+l in the <code>trivia-app</code> folder. The prompt should also show the to=
+p-level Git branch.</p>
+<pre><code>cd ~/environment/trivia-app</code></pre></li>
+<li><p>Install the backend code requirements and the unit test requirements=
+ by using <code>pip3</code> to run the following commands.</p>
+<div class=3D"sourceCode" id=3D"cb2"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock0"><code class=3D"sourceCode bash"><span id=3D"cb2-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-2.html#cb2-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"ex">pip3</span> install <span class=3D"at">-U</span> <span class=3D"at"=
+>-r</span> back-end-python/gameactions/requirements.txt</span>
+<span id=3D"cb2-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-2.html#cb2-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">pip3</span> install <span class=3D"a=
+t">-U</span> <span class=3D"at">-r</span> back-end-python/tests/requirement=
+s.txt</span>
+<span id=3D"cb2-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-2.html#cb2-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">./local_build.sh</span></span></code=
+></pre><button class=3D"btn copybtn" data-clipboard-target=3D"#codeblock0">=
+<img class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-2.am=
+azonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" alt=3D"=
+Copy to clipboard"></button></div>
+<p>You should see the code rating after <code>pylint</code> does its static=
+ analysis:</p>
+<pre><code>------------------------------------
+Your code has been rated at 10.00/10</code></pre>
+<p>Then, <code>pytest</code> runs its unit tests, which are shown like the =
+following example:</p>
+<pre><code>back-end-python/tests/unit/test_handler.py .........</code></pre=
+>
+<p>It will also output a coverage report in HTML, which is in <code>/trivia=
+-app/htmlcov</code>.</p></li>
+<li><p>In the <code>htmlcov</code> folder, right-click the <code>index.html=
+</code> file and view the coverage report by choosing <strong>Preview</stro=
+ng>.</p></li>
+</ol>
+<h2 id=3D"task-2-running-the-integration-test">Task 2: Running the integrat=
+ion test</h2>
+<p>For this task, you run an integration test against the application code.=
+</p>
+<ol type=3D"1">
+<li><p>Start the integration test (which will simulate a game) by running t=
+he following command.</p>
+<pre><code>AWS_SAM_STACK_NAME=3Dtrivia-app pytest -s back-end-python/tests/=
+integration/test_api_gateway.py</code></pre>
+<p>The integration test uses the AWS SAM stack to find the Websocket endpoi=
+nt, so the stack is passed in the <code>AWS_SAM_STACK_NAME</code> environme=
+nt variable.</p>
+<p>At the end of the test, you should see the following message: <strong><e=
+m>1 passed</em></strong></p></li>
+</ol>
+<h2 id=3D"task-3-updating-the-code-and-unit-tests">Task 3: Updating the cod=
+e and unit tests</h2>
+<p>In this task, you update the application code to change the score value =
+from <em>10</em> to <em>20</em>. You also update the unit test code.</p>
+<ol type=3D"1">
+<li><p>Open the <code>trivia-app/back-end-python/gameactions/app.py</code> =
+file.</p></li>
+<li><p>Scroll down to the <code>trivia_calculate_scores</code> function.</p=
+></li>
+<li><p>Update the code so the game increments the score by <code>20</code> =
+instead of by <code>10</code>. Locate <code>score +=3D 10</code> and change=
+ it to <code>score +=3D 20</code>. Make sure to save the file.</p>
+<pre><code>score +=3D 20</code></pre></li>
+<li><p>Verify that you left the code in a stable state by running the <code=
+>./local_build.sh</code> command.</p>
+<p>At the top of the failure report, you should see that the <code>test_tri=
+via_calculate_scores_correct</code> test failed:</p>
+<pre><code>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D FAILURES =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+_________________________________ test_trivia_calculate_scores_correct ____=
+__________________________________________________________________________<=
+/code></pre>
+<p>You also need to update the unit test to match the new score.</p></li>
+<li><p>Open the <code>trivia-app/back-end-python/tests/unit/test_handler.py=
+</code> file.</p></li>
+<li><p>Find the <code>test_trivia_calculate_scores_correct</code> function.=
+</p></li>
+<li><p>In the function=E2=80=99s <code>TABLE.update_item.assert_called_with=
+</code> call, find the <code>AttributeUpdates</code> field and update the <=
+code>Value</code> from <code>10</code> to <code>20</code>.</p>
+<pre><code>AttributeUpdates=3D{'score': {'Value': 20, 'Action': 'PUT'}}</co=
+de></pre></li>
+<li><p>You must also update <code>app.MANAGEMENT.post_to_connection.assert_=
+has_calls</code> (which tests API Gateway Websocket calls). Change the valu=
+e of <code>score</code> from <code>10</code> to <code>20</code>.</p>
+<pre><code>mock.call(Data=3D'{"action": "playerlist", "players": [{"connect=
+ionId": "connection-1", "playerName": "AliceBlue", "score": 20, "currentPla=
+yer": true}]}', ConnectionId=3D'connection-1'),</code></pre></li>
+<li><p>Save the file and re-run <code>./local_build.sh</code>. The test sum=
+mary should again show that everything passed.</p></li>
+</ol>
+<h2 id=3D"task-4-committing-to-source-control-through-the-aws-cloud9-gui-or=
+-the-aws-cli">Task 4: Committing to source control through the AWS Cloud9 G=
+UI or the AWS CLI</h2>
+<p>In this task, you commit the changes from the previous tasks to your cod=
+e repository. <em>You can commit the code by using either the <strong>AWS C=
+loud9 GUI</strong>, or AWS CLI commands in the <strong>AWS Cloud9 terminal<=
+/strong></em>.</p>
+<ol type=3D"1">
+<li><p>In the menu, at the left of <strong>AWS Cloud9</strong>, choose the =
+source control icon:</p>
+<p><img src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-A=
+WS-MO-DevOps-C1/images/Capture.PNG" alt=3D"source_control">.</p></li>
+<li><p>Under <strong>Changes</strong>, select either the <code>app.py</code=
+> or <code>test_handler.py</code> file to view the diffs between the origin=
+al files and your changes.</p></li>
+<li><p>Under <strong>Changes</strong>, stage the changes in <code>app.py</c=
+ode> and <code>test_handler.py</code> for a commit by placing the pointer o=
+ver the file name and choosing the stage icon (<strong>+</strong>) for the =
+file. The files should now appear under <strong>Staged Changes</strong>.</p=
+></li>
+<li><p>In the <strong>Source Control</strong> pane, at the right side of th=
+e <strong>trivia-app</strong> heading, left-click paper scroll icon and cho=
+ose <strong>Commit</strong>. Choose <strong>Yes</strong>.</p>
+<p><img src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-A=
+WS-MO-DevOps-C1/images/Capture2.PNG" alt=3D"paper_scroll_icon">.</p></li>
+<li><p>Under the <strong>trivia-app</strong> heading, enter the following c=
+ommit message and press Enter: <code>Scores now increment by 20</code></p>
+<p><img src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-A=
+WS-MO-DevOps-C1/images/Capture3.PNG" alt=3D"commit_message">.</p></li>
+<li><p>In the <strong>trivia-app</strong> heading, left-click the paper scr=
+oll icon and choose <strong>Push to=E2=80=A6</strong>. When prompted to sel=
+ect a remote, choose the remote named <strong>origin</strong>.</p></li>
+</ol>
+<details>
+<summary>
+Commit changes through the AWS CLI
+</summary>
+<h2 id=3D"task-4-committing-to-source-control-through-the-aws-cli">Task 4: =
+Committing to source control through the AWS CLI</h2>
+<ol type=3D"1">
+<li><p>In <strong>AWS Cloud9</strong>, you can also use the AWS CLI to comm=
+it the changes to AWS CodeCommit by running the following command:</p>
+<div class=3D"sourceCode" id=3D"cb10"><pre class=3D"sourceCode bash" id=3D"=
+codeblock1"><code class=3D"sourceCode bash"><span id=3D"cb10-1"><a href=3D"=
+https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1=
+/exercise-2.html#cb10-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span cla=
+ss=3D"fu">git</span> add <span class=3D"pp">*</span></span>
+<span id=3D"cb10-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-2.html#cb10-2" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> commit <span class=3D"a=
+t">-m</span> <span class=3D"st">"Scores now increment by 20"</span></span>
+<span id=3D"cb10-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-2.html#cb10-3" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> push origin main</span>=
+</code></pre><button class=3D"btn copybtn" data-clipboard-target=3D"#codebl=
+ock1"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-wes=
+t-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" a=
+lt=3D"Copy to clipboard"></button></div></li>
+</ol>
+</details>
+
+
+<footer>
+    <p>=C2=A9 2021 Amazon Web Services, Inc. or its affiliates. All rights =
+reserved. This work may not be reproduced or redistributed, in whole or in =
+part, without prior written permission from Amazon Web Services, Inc. Comme=
+rcial copying, lending, or selling is prohibited. Corrections, feedback, or=
+ other questions? Contact us at <a href=3D"https://support.aws.amazon.com/#=
+/contacts/aws-training" target=3D"_blank">https://support.aws.amazon.com/#/=
+contacts/aws-training</a>. All trademarks are the property of their owners.=
+</p>
+</footer>
+
+</body></html>
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-fc2ba0b9-6689-46ff-bfdb-68251f9825c8@mhtml.blink
+
+@charset "utf-8";
+
+html, body, footer { font-family: "Open Sans", "Helvetica Neue", Helvetica,=
+ Arial, sans-serif; margin: 1em; }
+
+img:not(.clipboard) { max-width: 100%; height: auto; width: auto; }
+
+button.copybtn { transition: opacity 0.3s ease-in-out 0s; opacity: 0; paddi=
+ng: 2px 6px; position: absolute; right: 4px; top: 4px; }
+
+div.sourceCode:hover .copybtn, div.sourceCode .copybtn:focus { opacity: 0.3=
+; }
+
+div.sourceCode .copybtn:hover { opacity: 1; }
+
+div.sourceCode { position: relative; }
+
+.xmodule_display.xmodule_HtmlBlock ol { padding: 0px 0px 0px 2em !important=
+; }
+
+.xmodule_display.xmodule_HtmlBlock ul { padding: 0px 0px 0px 2em !important=
+; }
+
+code { border-radius: 4px; padding: 2px 4px !important; background-color: r=
+gb(238, 238, 238) !important; }
+
+pre code { display: block; overflow-x: auto; margin: 0px 0px 10px; font-siz=
+e: 13px; line-height: 1.42857; word-break: break-all; overflow-wrap: break-=
+word; border: 1px solid rgb(204, 204, 204); border-radius: 4px; white-space=
+: pre; padding: 9.5px !important; background-color: rgb(245, 245, 245) !imp=
+ortant; }
+
+pre code span.al { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.an { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.at { color: rgb(125, 144, 41); }
+
+pre code span.bn { color: rgb(64, 160, 112); }
+
+pre code span.bu { color: rgb(6, 40, 126); }
+
+pre code span.cf { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.ch { color: rgb(64, 112, 160); }
+
+pre code span.cn { color: rgb(136, 0, 0); }
+
+pre code span.co { color: rgb(96, 160, 176); font-style: italic; }
+
+pre code span.cv { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.do { color: rgb(186, 33, 33); font-style: italic; }
+
+pre code span.dt { color: rgb(144, 32, 0); }
+
+pre code span.dv { color: rgb(64, 160, 112); }
+
+pre code span.er { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.ex { color: rgb(6, 40, 126); }
+
+pre code span.fl { color: rgb(64, 160, 112); }
+
+pre code span.fu { color: rgb(6, 40, 126); }
+
+pre code span.im { }
+
+pre code span.in { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.kw { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.op { color: rgb(102, 102, 102); }
+
+pre code span.ot { color: rgb(0, 112, 32); }
+
+pre code span.pp { color: rgb(188, 122, 0); }
+
+pre code span.sc { color: rgb(64, 112, 160); }
+
+pre code span.ss { color: rgb(187, 102, 136); }
+
+pre code span.st { color: rgb(64, 112, 160); }
+
+pre code span.va { color: rgb(25, 23, 124); }
+
+pre code span.vs { color: rgb(64, 112, 160); }
+
+pre code span.wa { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+footer { padding-top: 3em; font-style: italic; font-size: 0.9em; }
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg
+
+<svg height=3D"1024" width=3D"896" xmlns=3D"http://www.w3.org/2000/svg">
+  <path d=3D"M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448=
+L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H=
+128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V1=
+92c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64=
+ 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-2=
+9-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+</svg>=0A
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/Capture.PNG
+
+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
+RK5CYII=
+
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/Capture2.PNG
+
+iVBORw0KGgoAAAANSUhEUgAAAMYAAAAhCAYAAACC2tRnAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAPfSURBVHhe7ZnPTxNREMf5M/glQoBGDIRIi4nG
+mBTUgykmGlESDhoLRJNqTFwJHAwJBy8c69E7F6/+fc+dt292571Oty2sJe1+D5/I7Js3fZD57OzW
+idlbCwYA4AMxAFCAGAAoQAwAFCYmJ2cMAGDGF2NqatZbRIy4rLEnhkwCoMyoYhRpHmLEoxirYgBQ
+djwxijANMeJxiD0xZBIAZUYVoxDzqmcmOjnsvt5om/Pff81Ro0c9kaeuIy59XKvdN61WyxwfH/cF
+5Varm13rUayKcX0OzVHczOdODAD+J4NIwdAerRbjiTGoqXq8bXYvYilIDOLizKzS9Ih/jk7b9l97
+TUyC+gnltk3d1VttXsbxpdmtxXE4WVwtrh81t4PPz86zdkB1ONfVozWuGZ8nXY8llvWjE3dWgs6r
+1Jfx5qNnpvn9p/kQJbzY/2jX6fpW463NebjVMIvLK+p+xFePu4lRqWR/a86vVO6k63n1PTFk0vUI
+JgY3s2swe00+Itmf48at0poTi3Nlnlvjx6pEKN4XYD8zls3G7jxBTT5fIqKrG57V5UoBQ6j5Xze/
+mVu3F9NrJAYLQdAaXZNigGKgx6KrTA2tFqOK4Zk0XTOPv/5JGknyq22ersx35tvYF2Oq5u7Crrls
+vmh4zrfrfMfmRvTEcPVdveQsYhLwujgPN72F7/w7fk3vvOHnh6La/Kw+Nfyr91/M6r0H6TW5nkyM
+PSsJTRISaG5+KV0P8xFfP+bGp+kQrsuJwde0eqoYnaz7csRS1Je1PEafGN5dN2h4e/ePm6/Oj1E8
+Bbw8V9etp49c2sRw+5KGzptCxGBiSGgCULPzJCAR5OMUP0phYgwPbvxeaHsZT4x8E50cQoru+a7R
+TgMxDp6kuR3NaeNLE4kmtPVEXninT94hnBgsAhHv3+H3Fvt5XcTYUc4rxEh+n2zvmvL7UsO/fPfZ
+Tgz596D4+ZtmIMYnvGMMIebGH+I7xrqpuMenfAafGNk0yMnz6nC+PjG8acLSBGJwrL5jsFQu1ztT
+gPaOQTJgYtwM3Pi90PYyqhh5JvUbJy/GrsF6vmMk+9OXafnOIMVIcxKiC9fQ6Z0/+3wpGtW0k8g1
+ezp5miyBaPxUvrNsP08+r74fy0co+naKJKC1RIw9KwbJs9/6YZYqdzv2Iy4u5sYfwjvGmBHI5qFN
+NzBS9PMN1Q38P8YIxCyGNmmEGFeuj/hG415f39LaxkYtt54nhkwCoMyoYvRrJmLE4xqrYgBQdjwx
+ijANMeJxiD0xZBIAZUYVo0jzECMexdgTY3pmzgAA5nwxZAAASIAYAChADAAUIAYAHSyYf0DyNIBG
+2wOYAAAAAElFTkSuQmCC
+
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N----
+Content-Type: image/png
+Content-Transfer-Encoding: base64
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/Capture3.PNG
+
+iVBORw0KGgoAAAANSUhEUgAAAMIAAABDCAYAAADODdpMAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAb3SURBVHhe7ZzPahxHEMb9FLYkW46N7bUdpCi2
+ZIeEEJCd5BCkQEKcGAySiGzjgBIC2Rj7EARG1kVH5ZiLQUKXXMPqKQR7yFHP0qnq7pqp7u3plTa7
+EqP5Dj92q//U9Mx8X9fMGuvcpcmrBoCmAyMAQMAIABAwAgDEubGxiwaAphIYYXz8UtCJGHFTYlQE
+AIikEYbpNMSI6xCjIgBABEYYhrMQI65jjIoAAJE0wkDOml037VfPqvsXts2bv/4xzxf65FPjkv2I
+Gx/Pzd03a2tr5uXLl0eCx87O3qvMx/GQKsIz85zE+8YbAYBRchwTCDwnlUsIjHBcZ7r4oXm0RSZg
+IzBb62aKqwN9b7/etp+2Te3086947LaZ9/mmVvco3jOP5iiOK4fPJfnbqw+j45frmX7KeWSsz8d9
+kpPWU/STaXX+9iu/VobXm8iv43uffmlWf980P7YdXz95Yfu5/cHCD3bMJw8WzLUbt5PzEQ8eVxmh
+1SqvtYxvtW4V/bn8o6kIIl4vKNumH3nsdxLqLPd5I8lYPc73yWOSM5DMi7DHJHPZ2K8nyinrc8bz
+eeO1+rHacDEs9u9WfzOT710r2tgIYgCG+7hNGwEMB37MGaQqpHIJvUaYmDOf/fq3E47mz23zxe0r
+dkyvs0IjjM/5XdaLyY5XApfxtl92ZBFeYASf3+dza1E7vfSr9YjILbKzL4Y5g/XGx4+NaceX+Vng
+3678YqbufFy06X5XER5bU3ClYMNcvnK96I/HI/7/sQidd/+4X1cEaUvlq6gIM6EZyATzN3R/TLoi
+BLtqJHC7u5PY5uWxSHb5YJzP6/uLR6hURfDznIBzVYY5nhE0vMOzuGWnZ+HrxyN5NEJFODlE6P1I
+zRUCI4RO8WZQJkg5yX33wnodGeHp58XYHjHaeM+0lehsPjUu3sndO4A3ggifofmL8t5hj1dhhMXE
+epUR3PmUc6cT58sC/2b5Z1sR9PXg+KvvVyMj/IR3hBOIRegjfEeYMS3/OJTn+BWh3O0z44I8Mj5d
+EYJqISaJjCBx8h1BTOTHBmuKSL0jsPhREU4HEXo/UnOFpBFyzqmK3YusF1TfdwQ3v3j51c/82gjF
+GEd7ywu42NnL42tjcU5baby4i8qyKqJXQi/Mtl7Ol8oW5A9j/UjEvx6x6LnPGeGxNQKb5cnaH+Z6
+6/2e+YiHF4vQR/COcMaIzBWQql6gVhzlF6QT+HeEGsRihFQlUUYYOD/iU437/ZzKfXfvzmXzNaMi
+ANCHpBGO6kTEiM9KjIoAABEYYRjOQoy4jjEqAgBE0gjDdBpixHWICyNMXLxsAGgqhRHkCwBNBkYA
+gIARACBgBACIrBFu3p42H3x438zc+QiA2sIaZi2nNC5UGoEntm5O2Z+Zzp8fB6C2sIZZyzkzVBqB
+XcS/s164MBH89gpA3WANs5ZZ0ymtM5VG4JIyNgYTgLPChNV0SutMHyOkEgJQT2CEhnB4eJhsBw4Y
+oSHACHlghIYAI+SBERoCjJBnhEZYNjsHh/YGMJ3Nt6az/zYxbtjQcQ52zVKy75hsduzau++WVTvl
+53M6kXMZHjBCnpEZYWOfxS+xN8WpiofWsH98g2zsd01XzVt61zHdg47ZUGPqAIyQZzRGWNk1nWAX
+7YWNItWiMIjdgbtUObr2c2dz13S5n3f4XF+cM64ItB47VnPEqrGxT6KnYztTu2qzw222P6x6PUYP
+jks5inmMrywWPq+O2VlJ9ekNxVFeO7oOZMxyTPV6ONY5QMhojEDCCR8nQpbe0S6r+nXM390NZDE4
+4fAuzCLJ9Umu6p1/0IrAx6Hj8XG9IVybW48WaXxeMs7G1hRlHK6bz4dEXcTLZD7Jw+LW8/QxnGH0
+tataD4yQ5xSMkBJk2VYKxItPteX6UrnKtlx7HhGz24Xlu26L0JXGVrGyL9jZoyoVXi8Wf9knx+W+
+wFyMuta59fD3Yg7oYTRG4JvshdpLPY3Ax9zwQi6NEIkyC6258nGMhV/mind2fZy8EarXAyPkGY0R
+CH7JDASqbliPeMk48k5xUkbg3TPYoStIiatoy1a+WPg6DoUfx8G163mk0ibheaqaZNYDI+QZmRHs
+jZfyzMSi0H1yo+lGlrEbwzeWb/7h4b+ZvrKtzMmEZnRjXV+1gEv0eCc+dQx/Pj2PI0UljNcTvgOE
+jz65xyZ+yabPwERqHplSn0vVevh7kR/0MEIjgBOBNo+jVDYYIQ+MUEN0pQorbTUwQh4YoSHACHlg
+hIYAI+SBERoCjJAHRmgIMEIeGAEAYiAj8P/4n5iYTCYEoG6wlgf6Kxb27xrdmoYZQO1hDbOWB/q7
+RgxPZBdxSQGgrrCGcyZgskYAoCnACAAQMAIABIwAAAEjAEDACAAQMAIAk1fNf2NrDilABYSoAAAA
+AElFTkSuQmCC
+
+------MultipartBoundary--Y54K1wMb3FhZL17QsoMDEWZNwJwR8pWIBwuzO5rS3N------

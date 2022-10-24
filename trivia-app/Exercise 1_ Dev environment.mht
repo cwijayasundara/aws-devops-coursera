@@ -1,0 +1,462 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html
+Subject: Exercise 1: Dev environment
+Date: Mon, 19 Sep 2022 14:26:16 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--aHhHgfEgVX61ZZxU06z2SZNyPTmkLwgVpZ3DNvtsbl----"
+
+
+------MultipartBoundary--aHhHgfEgVX61ZZxU06z2SZNyPTmkLwgVpZ3DNvtsbl----
+Content-Type: text/html
+Content-ID: <frame-49A587BE36E517AC7CB87B5E31C66046@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html
+
+<!DOCTYPE html><html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"" xml:l=
+ang=3D"" data-lt-installed=3D"true"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"te=
+xt/css" href=3D"cid:css-3f15bed0-733f-4f55-a96f-55d80d269e27@mhtml.blink" /=
+>
+ =20
+  <meta name=3D"generator" content=3D"pandoc">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0, user-scalable=3Dyes">
+  <title>Exercise 1: Dev environment</title>
+ =20
+ =20
+
+
+</head><body>
+<p><em>[version_1.0]</em></p>
+<div style=3D"background-color: #FFD2D2; padding: 15px; margin-bottom: 25px=
+">
+<h3>
+<span class=3D"fa fa-info-circle"></span> Note
+</h3>
+<p>The exercises in this course will have an associated charge in your AWS =
+account. In this exercise, you will create the following resources:</p>
+<ul>
+<li>AWS Cloud9 environment</li>
+<li>Amazon Simple Storage Service (Amazon S3) bucket</li>
+<li>Amazon API Gateway REST API</li>
+<li>Amazon DynamoDB table</li>
+<li>AWS Step Functions state machine</li>
+<li>AWS Lambda functions</li>
+</ul>
+<p><strong>The final exercise includes instructions to delete all the resou=
+rces that you create in the exercises.</strong></p>
+<p>Familiarize yourself with <strong><a href=3D"https://aws.amazon.com/clou=
+d9/pricing/" target=3D"_blank">AWS Cloud9 Pricing</a></strong>, <strong><a =
+href=3D"https://aws.amazon.com/s3/pricing/" target=3D"_blank">Amazon S3 pri=
+cing</a></strong>, <strong><a href=3D"https://aws.amazon.com/api-gateway/pr=
+icing/" target=3D"_blank">Amazon API Gateway pricing</a></strong>, <strong>=
+<a href=3D"https://aws.amazon.com/dynamodb/pricing/" target=3D"_blank">Amaz=
+on DynamoDB pricing</a></strong>, <strong><a href=3D"https://aws.amazon.com=
+/step-functions/pricing/" target=3D"_blank">AWS Step Functions pricing</a><=
+/strong>, <strong><a href=3D"https://aws.amazon.com/lambda/pricing/" target=
+=3D"_blank">AWS Lambda Pricing</a></strong>, and the <strong><a href=3D"htt=
+ps://aws.amazon.com/free/" target=3D"_blank">AWS Free Tier</a></strong>.</p=
+>
+</div>
+<h1 id=3D"exercise-setting-up-your-development-environment">Exercise: Setti=
+ng Up Your Development Environment</h1>
+<p>In a production environment, you would normally create a customer manage=
+d policy in AWS Identity and Access Management (IAM). Customer managed poli=
+cies provide more precise control over your policies than policies that AWS=
+ manages. This policy would then have permissions that are specific to the =
+AWS resources you need. You would also attach this policy to a new user and=
+ log in to the AWS Management Console with that new user. However, because =
+you are working in an exercise environment, those steps were omitted.</p>
+<p>In this exercise, you will start by creating an AWS Cloud9 environment f=
+or your development environment. In this environment, you will download and=
+ extract the source code that you will use in this course. You will deploy =
+the application=E2=80=99s backend infrastructure by using the AWS Serverles=
+s Application Model Command Line Interface (AWS SAM CLI). You will use AWS =
+SAM to create all the resources that host the backend of the application: a=
+n Amazon API Gateway gateway, AWS Lambda functions, an Amazon DynamoDB tabl=
+e, and an AWS Step Functions state machine. You will also deploy the applic=
+ation frontend: a React web application that=E2=80=99s hosted on an S3 buck=
+et, which acts as the web server. After the application is up and running, =
+you will put the application under source control by using AWS CodeCommit.<=
+/p>
+<h2 id=3D"task-1-creating-an-aws-cloud9-environment-and-downloading-the-app=
+lication">Task 1: Creating an AWS Cloud9 environment and downloading the ap=
+plication</h2>
+<p>For this task, you create an AWS Cloud9 environment for use as your deve=
+lopment environment. You also download the pre-built application on to the =
+AWS Cloud9 instance.</p>
+<ol type=3D"1">
+<li><p>Choose <strong>Services</strong> and search for <strong>Cloud9</stro=
+ng>. <em>Make sure you are in the Oregon <strong>(US-West-2)</strong> Regio=
+n</em>.</p></li>
+<li><p>Choose <strong>Create environment</strong>.</p></li>
+<li><p>For <strong>Name</strong>, enter <code>trivia-app</code>, and choose=
+ <strong>Next step</strong>.</p></li>
+<li><p>Keep the default <strong>Environment settings</strong> and choose <s=
+trong>Next step</strong>.</p></li>
+<li><p>Choose <strong>Create environment</strong>.</p></li>
+<li><p>Download the application through the <strong>AWS Cloud9</strong> ter=
+minal by running the following command:</p>
+<div class=3D"sourceCode" id=3D"cb1"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock0"><code class=3D"sourceCode bash"><span id=3D"cb1-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-1.html#cb1-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"fu">wget</span> https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/=
+DEV-AWS-MO-DevOps-C1/downloads/trivia-app.zip <span class=3D"at">-O</span> =
+~/trivia-app.zip</span>
+<span id=3D"cb1-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb1-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"fu">unzip</span> <span class=3D"at">-o</=
+span> ~/trivia-app.zip</span></code></pre><button class=3D"btn copybtn" dat=
+a-clipboard-target=3D"#codeblock0"><img class=3D"clipboard" src=3D"https://=
+aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/=
+clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div></li>
+</ol>
+<h2 id=3D"task-2-creating-the-backend-infrastructure">Task 2: Creating the =
+backend infrastructure</h2>
+<p>In this task, you deploy the application stack by using the AWS SAM and =
+the AWS CLI. You also make a few minor configuration changes.</p>
+<ol type=3D"1">
+<li><p>In the AWS Cloud9 terminal, change the directory to the <code>trivia=
+-app</code> folder and use AWS SAM to build the <code>template.yaml</code> =
+file.</p>
+<div class=3D"sourceCode" id=3D"cb2"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock1"><code class=3D"sourceCode bash"><span id=3D"cb2-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-1.html#cb2-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"bu">cd</span> trivia-app</span>
+<span id=3D"cb2-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb2-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">sam</span> build</span>
+<span id=3D"cb2-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb2-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">sam</span> deploy <span class=3D"at"=
+>--guided</span></span></code></pre><button class=3D"btn copybtn" data-clip=
+board-target=3D"#codeblock1"><img class=3D"clipboard" src=3D"https://aws-tc=
+-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipbo=
+ard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p><strong>AWS SAM settings:</strong> For the <strong>Stack Name</strong>, =
+make sure to copy <code>trivia-app</code> and paste it. However, for the ot=
+her entries, accept the default selections by pressing Enter or Return.</p>
+<pre><code>Stack Name [sam-app]: trivia-app
+AWS Region [us-west-2]: &lt;Press Enter or Return&gt;
+#Shows you resources changes to be deployed and require a 'Y' to initiate d=
+eploy
+Confirm changes before deploy [y/N]: &lt;Press Enter or Return&gt;
+#SAM needs permission to be able to create roles to connect to the resource=
+s in your template
+Allow SAM CLI IAM role creation [Y/n]: &lt;Press Enter or Return&gt;
+Save arguments to configuration file [Y/n]: &lt;Press Enter or Return&gt;
+SAM configuration file [samconfig.toml]: &lt;Press Enter or Return&gt;
+SAM configuration environment [default]: &lt;Press Enter or Return&gt;</cod=
+e></pre>
+<p>You should get confirmation that the stack was created successfully.</p>
+<pre><code>Successfully created/updated stack - trivia-app in us-west-2</co=
+de></pre></li>
+<li><p>From the <strong>Outputs</strong> table in the terminal output, copy=
+ the Websocket <strong>Value</strong>. It should look similar to the follow=
+ing example:</p>
+<pre><code>wss://xxxxxxxxxx.execute-api.us-west-2.amazonaws.com/Prod  </cod=
+e></pre></li>
+</ol>
+<h2 id=3D"task-3-testing-the-frontend-on-aws-cloud9">Task 3: Testing the fr=
+ontend on AWS Cloud9</h2>
+<p>In this task, you install Node package manager (NPM) dependencies. You a=
+lso preview the application in the AWS Cloud9 environment.</p>
+<ol type=3D"1">
+<li><p>Update the <code>trivia-app/front-end-react/src/config.js</code> fil=
+e with the Websocket endpoint that you copied previously. Make sure to save=
+ the file.</p></li>
+<li><p>In <strong>AWS Cloud9</strong>, set the Node version to the v16 (cod=
+ename: Gallium).</p>
+<div class=3D"sourceCode" id=3D"cb6"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock2"><code class=3D"sourceCode bash"><span id=3D"cb6-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-1.html#cb6-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"ex">nvm</span> install lts/gallium</span>
+<span id=3D"cb6-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb6-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">nvm</span> alias default lts/gallium=
+</span></code></pre><button class=3D"btn copybtn" data-clipboard-target=3D"=
+#codeblock2"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3=
+.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=
+=3D"13" alt=3D"Copy to clipboard"></button></div></li>
+<li><p>Change to the <code>front-end-react</code> directory and install the=
+ NPM dependencies.</p>
+<div class=3D"sourceCode" id=3D"cb7"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock3"><code class=3D"sourceCode bash"><span id=3D"cb7-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-1.html#cb7-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"bu">cd</span> front-end-react/</span>
+<span id=3D"cb7-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb7-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">npm</span> install</span>
+<span id=3D"cb7-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb7-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">npm</span> run start</span></code></=
+pre><button class=3D"btn copybtn" data-clipboard-target=3D"#codeblock3"><im=
+g class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazo=
+naws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" alt=3D"Cop=
+y to clipboard"></button></div>
+<p><strong>Note:</strong> There is currently a <a href=3D"https://github.co=
+m/webpack/webpack/issues/14532" target=3D"_blank">known issue</a> with the =
+dependency webpack under Node v17. If you see an error containing <code>cod=
+e: 'ERR_OSSL_EVP_UNSUPPORTED'</code> ensure you are running the exercise wi=
+th Node v16.</p>
+<p>After the NPM installation finishes, you might see NPM warnings, but it=
+=E2=80=99s OK to proceed.</p></li>
+<li><p>In the AWS Cloud9 menu bar, choose <strong>Preview</strong> and choo=
+se <strong>Preview Running Application</strong>. Feel free to play around w=
+ith the game.</p></li>
+<li><p>Finally, in the <strong>AWS Cloud9</strong> terminal, close the prev=
+iewed application and end the running NPM server by sending a SIGINT (Ctrl+=
+C).</p></li>
+</ol>
+<h2 id=3D"task-4-deploying-the-frontend-to-an-s3-bucket">Task 4: Deploying =
+the frontend to an S3 bucket</h2>
+<p>For this task, you deploy the application to a new S3 bucket, which will=
+ act as the web server.</p>
+<ol type=3D"1">
+<li><p>Create a uniquely named Amazon Simple Storage Service (Amazon S3) bu=
+cket. For the bucket name, you could use your initials, a set of numbers, a=
+nd the string <em>trivia-app-bucket</em>, similar to this example: <code>&l=
+t;your_initials&gt;&lt;numbers&gt;-trivia-app-bucket</code>.</p>
+<div class=3D"sourceCode" id=3D"cb8"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock4"><code class=3D"sourceCode bash"><span id=3D"cb8-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-1.html#cb8-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"ex">aws</span> s3 mb s3://<span class=3D"op">&lt;</span>your_initials<s=
+pan class=3D"op">&gt;&lt;</span>numbers<span class=3D"op">&gt;</span>-trivi=
+a-app-bucket/</span>
+<span id=3D"cb8-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb8-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">npm</span> run build</span>
+<span id=3D"cb8-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb8-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"ex">aws</span> s3 sync <span class=3D"at=
+">--acl</span> public-read build s3://<span class=3D"op">&lt;</span>your_in=
+itials<span class=3D"op">&gt;&lt;</span>numbers<span class=3D"op">&gt;</spa=
+n>-trivia-app-bucket/</span></code></pre><button class=3D"btn copybtn" data=
+-clipboard-target=3D"#codeblock4"><img class=3D"clipboard" src=3D"https://a=
+ws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/c=
+lipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button></div>
+<p><strong>Note:</strong> If the bucket name you entered already exists, ch=
+ange the numbers and try to create the bucket again.</p></li>
+<li><p>View the application that=E2=80=99s hosted on your bucket by using t=
+he application URL, which includes the bucket name and <em>index.html</em>.=
+ The URL should look similar to the following example: <code>https://&lt;yo=
+ur_initials&gt;&lt;numbers&gt;-trivia-app-bucket.s3.amazonaws.com/index.htm=
+l</code>.</p></li>
+</ol>
+<h2 id=3D"task-5-putting-the-application-under-source-control">Task 5: Putt=
+ing the application under source control</h2>
+<p>In this final task, you add source control to the application by using A=
+WS CodeCommit to set up a new repository. You then use Git within AWS Cloud=
+9 to commit the code changes to the repository.</p>
+<ol type=3D"1">
+<li><p>At the left on the menu bar, choose <strong>AWS Cloud9</strong> and =
+choose <strong>Go To Your Dashboard</strong>.</p></li>
+<li><p>Choose <strong>Services</strong> and search for <strong>CodeCommit</=
+strong>.</p></li>
+<li><p>Choose <strong>Create repository</strong>.</p></li>
+<li><p>For the <strong>Repository name</strong>, enter <code>trivia-app</co=
+de> and then choose <strong>Create</strong>.</p></li>
+<li><p>Switch back to the <strong>AWS Cloud9</strong> terminal window.</p><=
+/li>
+<li><p>Configure Git with your name and email address.</p>
+<div class=3D"sourceCode" id=3D"cb9"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock5"><code class=3D"sourceCode bash"><span id=3D"cb9-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-1.html#cb9-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"fu">git</span> config <span class=3D"at">--global</span> user.name <spa=
+n class=3D"st">"&lt;REPLACE_WITH_YOUR_NAME&gt;"</span></span>
+<span id=3D"cb9-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb9-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"fu">git</span> config <span class=3D"at"=
+>--global</span> user.email <span class=3D"op">&lt;</span>REPLACE_WITH_YOUR=
+_EMAIL<span class=3D"op">&gt;</span></span></code></pre><button class=3D"bt=
+n copybtn" data-clipboard-target=3D"#codeblock5"><img class=3D"clipboard" s=
+rc=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-Dev=
+Ops-C1/images/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></butto=
+n></div></li>
+<li><p>In the terminal, initialize your repository, create a branch and a c=
+ommit, and push the code to the repository.</p>
+<div class=3D"sourceCode" id=3D"cb10"><pre class=3D"sourceCode bash" id=3D"=
+codeblock6"><code class=3D"sourceCode bash"><span id=3D"cb10-1"><a href=3D"=
+https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1=
+/exercise-1.html#cb10-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span cla=
+ss=3D"bu">cd</span> ~/environment/trivia-app/</span>
+<span id=3D"cb10-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb10-2" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> init</span>
+<span id=3D"cb10-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb10-3" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> checkout <span class=3D=
+"at">-b</span> main</span>
+<span id=3D"cb10-4"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb10-4" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> add .</span>
+<span id=3D"cb10-5"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb10-5" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> commit <span class=3D"a=
+t">-m</span> <span class=3D"st">"initial commit"</span></span>
+<span id=3D"cb10-6"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb10-6" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> remote add origin codec=
+ommit://trivia-app</span>
+<span id=3D"cb10-7"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-1.html#cb10-7" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">git</span> push origin main</span>=
+</code></pre><button class=3D"btn copybtn" data-clipboard-target=3D"#codebl=
+ock6"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-wes=
+t-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" a=
+lt=3D"Copy to clipboard"></button></div>
+<p>The following list provides explanations of each Git command:</p>
+<ul>
+<li><code>git init</code> - Initialize a Git repository.</li>
+<li><code>git checkout -b main</code> - Create a branch named <code>main</c=
+ode>, and check out (switch to) the branch.</li>
+<li><code>git add</code> - Adds all the files to the Git index. The files a=
+re now staged for a commit.</li>
+<li><code>git commit</code> - Creates a commit in the Git log with a commit=
+ message.</li>
+<li><code>git remote add origin</code> - Create a remote named <code>origin=
+</code>. A remote is how Git tracks the <em>remote</em> repository that is =
+hosted in CodeCommit. The <code>codecommit://</code> prefix tells Git to us=
+e the <a href=3D"https://aws.amazon.com/about-aws/whats-new/2020/03/aws-cod=
+ecommit-introduces-open-source-remote-helper/" target=3D"_blank">CodeCommit=
+ remote helper</a>.</li>
+<li><code>git push</code> - Update the remote named <code>origin</code> wit=
+h the <code>main</code> branch.</li>
+</ul></li>
+</ol>
+
+
+<footer>
+    <p>=C2=A9 2021 Amazon Web Services, Inc. or its affiliates. All rights =
+reserved. This work may not be reproduced or redistributed, in whole or in =
+part, without prior written permission from Amazon Web Services, Inc. Comme=
+rcial copying, lending, or selling is prohibited. Corrections, feedback, or=
+ other questions? Contact us at <a href=3D"https://support.aws.amazon.com/#=
+/contacts/aws-training" target=3D"_blank">https://support.aws.amazon.com/#/=
+contacts/aws-training</a>. All trademarks are the property of their owners.=
+</p>
+</footer>
+
+</body></html>
+------MultipartBoundary--aHhHgfEgVX61ZZxU06z2SZNyPTmkLwgVpZ3DNvtsbl----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-3f15bed0-733f-4f55-a96f-55d80d269e27@mhtml.blink
+
+@charset "utf-8";
+
+html, body, footer { font-family: "Open Sans", "Helvetica Neue", Helvetica,=
+ Arial, sans-serif; margin: 1em; }
+
+img:not(.clipboard) { max-width: 100%; height: auto; width: auto; }
+
+button.copybtn { transition: opacity 0.3s ease-in-out 0s; opacity: 0; paddi=
+ng: 2px 6px; position: absolute; right: 4px; top: 4px; }
+
+div.sourceCode:hover .copybtn, div.sourceCode .copybtn:focus { opacity: 0.3=
+; }
+
+div.sourceCode .copybtn:hover { opacity: 1; }
+
+div.sourceCode { position: relative; }
+
+.xmodule_display.xmodule_HtmlBlock ol { padding: 0px 0px 0px 2em !important=
+; }
+
+.xmodule_display.xmodule_HtmlBlock ul { padding: 0px 0px 0px 2em !important=
+; }
+
+code { border-radius: 4px; padding: 2px 4px !important; background-color: r=
+gb(238, 238, 238) !important; }
+
+pre code { display: block; overflow-x: auto; margin: 0px 0px 10px; font-siz=
+e: 13px; line-height: 1.42857; word-break: break-all; overflow-wrap: break-=
+word; border: 1px solid rgb(204, 204, 204); border-radius: 4px; white-space=
+: pre; padding: 9.5px !important; background-color: rgb(245, 245, 245) !imp=
+ortant; }
+
+pre code span.al { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.an { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.at { color: rgb(125, 144, 41); }
+
+pre code span.bn { color: rgb(64, 160, 112); }
+
+pre code span.bu { color: rgb(6, 40, 126); }
+
+pre code span.cf { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.ch { color: rgb(64, 112, 160); }
+
+pre code span.cn { color: rgb(136, 0, 0); }
+
+pre code span.co { color: rgb(96, 160, 176); font-style: italic; }
+
+pre code span.cv { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.do { color: rgb(186, 33, 33); font-style: italic; }
+
+pre code span.dt { color: rgb(144, 32, 0); }
+
+pre code span.dv { color: rgb(64, 160, 112); }
+
+pre code span.er { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.ex { color: rgb(6, 40, 126); }
+
+pre code span.fl { color: rgb(64, 160, 112); }
+
+pre code span.fu { color: rgb(6, 40, 126); }
+
+pre code span.im { }
+
+pre code span.in { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.kw { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.op { color: rgb(102, 102, 102); }
+
+pre code span.ot { color: rgb(0, 112, 32); }
+
+pre code span.pp { color: rgb(188, 122, 0); }
+
+pre code span.sc { color: rgb(64, 112, 160); }
+
+pre code span.ss { color: rgb(187, 102, 136); }
+
+pre code span.st { color: rgb(64, 112, 160); }
+
+pre code span.va { color: rgb(25, 23, 124); }
+
+pre code span.vs { color: rgb(64, 112, 160); }
+
+pre code span.wa { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+footer { padding-top: 3em; font-style: italic; font-size: 0.9em; }
+------MultipartBoundary--aHhHgfEgVX61ZZxU06z2SZNyPTmkLwgVpZ3DNvtsbl----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg
+
+<svg height=3D"1024" width=3D"896" xmlns=3D"http://www.w3.org/2000/svg">
+  <path d=3D"M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448=
+L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H=
+128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V1=
+92c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64=
+ 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-2=
+9-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+</svg>=0A
+------MultipartBoundary--aHhHgfEgVX61ZZxU06z2SZNyPTmkLwgVpZ3DNvtsbl------

@@ -1,0 +1,357 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html
+Subject: Exercise 3: AWS CodeBuild
+Date: Mon, 24 Oct 2022 05:37:31 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--8RnT8wY9wogOrxLNGrfaGpoCOOVuPb1kgLYayFJbfM----"
+
+
+------MultipartBoundary--8RnT8wY9wogOrxLNGrfaGpoCOOVuPb1kgLYayFJbfM----
+Content-Type: text/html
+Content-ID: <frame-3952A00D40AFB2F04A0CE403600C1EBF@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html
+
+<!DOCTYPE html><html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"" xml:l=
+ang=3D"" data-lt-installed=3D"true"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"te=
+xt/css" href=3D"cid:css-e97f5f9c-c24a-4d70-8f99-4b50c4383518@mhtml.blink" /=
+>
+ =20
+  <meta name=3D"generator" content=3D"pandoc">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0, user-scalable=3Dyes">
+  <title>Exercise 3: AWS CodeBuild</title>
+ =20
+ =20
+
+
+</head><body>
+<p><em>[version_1.0]</em></p>
+<div style=3D"background-color: #FFD2D2; padding: 15px; margin-bottom: 25px=
+">
+<h3>
+<span class=3D"fa fa-info-circle"></span> Note
+</h3>
+<p>The exercises in this course will have an associated charge in your AWS =
+account. In this exercise, you will create the following resources:</p>
+<ul>
+<li>AWS CodeBuild build project</li>
+</ul>
+<p><strong>The final exercise includes instructions to delete all the resou=
+rces that you create in the exercises.</strong></p>
+<p>Familiarize yourself with <strong><a href=3D"https://aws.amazon.com/code=
+build/pricing/" target=3D"_blank">AWS CodeBuild pricing</a></strong> and th=
+e <strong><a href=3D"https://aws.amazon.com/free/" target=3D"_blank">AWS Fr=
+ee Tier</a></strong>.</p>
+</div>
+<h1 id=3D"exercise-using-aws-codebuild">Exercise: Using AWS CodeBuild</h1>
+<p>In this exercise, you will be updating the application with a buildspec =
+file, and using CodeBuild to test the application. The buildspec file conta=
+ins the same tests you performed with the local build: linting with pylint,=
+ and unit tests with pytest. You will also use CodeBuild to run unit tests =
+against the application, and then view the log output.</p>
+<h2 id=3D"task-1-creating-a-buildspec-file">Task 1: Creating a buildspec fi=
+le</h2>
+<p>In this task, you create a <em>buildspec</em> file, which CodeBuild uses=
+ to run a build. You will then check these changes into your repository.</p=
+>
+<ol type=3D"1">
+<li><p>If needed, return to AWS Cloud9 and open your development environmen=
+t.</p></li>
+<li><p>In the <strong>Environment</strong> pane, create a file by right-cli=
+cking the <strong>trivia-app</strong> folder and choosing <strong>New File<=
+/strong>.</p></li>
+<li><p>Rename the new file to <code>buildspecs/unittests.yaml</code>. In th=
+e <strong>Confirm move to a new folder</strong> window, choose <strong>Yes<=
+/strong>.</p></li>
+<li><p>Open the new file and in the new file, copy and paste the following =
+code:</p>
+<div class=3D"sourceCode" id=3D"cb1"><pre class=3D"sourceCode yaml" id=3D"c=
+odeblock0"><code class=3D"sourceCode yaml"><span id=3D"cb1-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-3.html#cb1-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"fu">version</span><span class=3D"kw">:</span><span class=3D"at"> </span=
+><span class=3D"fl">0.2</span></span>
+<span id=3D"cb1-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a></span>
+<span id=3D"cb1-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a></span>
+<span id=3D"cb1-4"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-4" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"fu">phases</span><span class=3D"kw">:</s=
+pan></span>
+<span id=3D"cb1-5"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-5" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"at">  </span><span class=3D"fu">install<=
+/span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-6"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-6" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"at">    </span><span class=3D"fu">comman=
+ds</span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-7"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-7" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"at">      </span><span class=3D"kw">-</s=
+pan><span class=3D"at"> pip3 install -U -r back-end-python/gameactions/requ=
+irements.txt</span></span>
+<span id=3D"cb1-8"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-8" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"at">      </span><span class=3D"kw">-</s=
+pan><span class=3D"at"> pip3 install -U -r back-end-python/tests/requiremen=
+ts.txt</span></span>
+<span id=3D"cb1-9"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-9" aria-hidden=3D"true" =
+tabindex=3D"-1"></a></span>
+<span id=3D"cb1-10"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-10" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">  </span><span class=3D"fu">build<=
+/span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-11"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-11" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">    </span><span class=3D"fu">comm=
+ands</span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-12"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-12" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">      </span><span class=3D"kw">-<=
+/span><span class=3D"at"> pylint --fail-under=3D8 back-end-python/gameactio=
+ns/app.py</span></span>
+<span id=3D"cb1-13"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-13" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">      </span><span class=3D"kw">-<=
+/span><span class=3D"at"> pytest back-end-python/tests/unit --junit-xml=3Du=
+nittests.xml --cov-report=3Dxml --cov=3Dgameactions --cov-branch</span></sp=
+an>
+<span id=3D"cb1-14"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-14" aria-hidden=3D"true=
+" tabindex=3D"-1"></a></span>
+<span id=3D"cb1-15"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-15" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"fu">reports</span><span class=3D"kw">:=
+</span></span>
+<span id=3D"cb1-16"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-16" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">  </span><span class=3D"fu">UnitTe=
+sts</span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-17"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-17" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">    </span><span class=3D"fu">file=
+s</span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-18"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-18" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">      </span><span class=3D"kw">-<=
+/span><span class=3D"at"> </span><span class=3D"st">'unittests.xml'</span><=
+/span>
+<span id=3D"cb1-19"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-19" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">  </span><span class=3D"fu">NewCov=
+erage</span><span class=3D"kw">:</span><span class=3D"co"> #</span></span>
+<span id=3D"cb1-20"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-20" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">    </span><span class=3D"fu">file=
+s</span><span class=3D"kw">:</span></span>
+<span id=3D"cb1-21"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-21" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">      </span><span class=3D"kw">-<=
+/span><span class=3D"at"> </span><span class=3D"st">'coverage.xml'</span></=
+span>
+<span id=3D"cb1-22"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.ama=
+zonaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb1-22" aria-hidden=3D"true=
+" tabindex=3D"-1"></a><span class=3D"at">    </span><span class=3D"fu">file=
+-format</span><span class=3D"kw">:</span><span class=3D"at"> COBERTURAXML</=
+span></span></code></pre><button class=3D"btn copybtn" data-clipboard-targe=
+t=3D"#codeblock0"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjec=
+ts.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" wi=
+dth=3D"13" alt=3D"Copy to clipboard"></button></div></li>
+<li><p>Save the file.</p></li>
+<li><p>Add the file to your AWS CodeCommit repository.</p>
+<div class=3D"sourceCode" id=3D"cb2"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock1"><code class=3D"sourceCode bash"><span id=3D"cb2-1"><a href=3D"ht=
+tps://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/e=
+xercise-3.html#cb2-1" aria-hidden=3D"true" tabindex=3D"-1"></a><span class=
+=3D"fu">git</span> add <span class=3D"pp">*</span></span>
+<span id=3D"cb2-2"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb2-2" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"fu">git</span> commit <span class=3D"at"=
+>-m</span> <span class=3D"st">"adding a unittests buildspec"</span></span>
+<span id=3D"cb2-3"><a href=3D"https://aws-tc-largeobjects.s3.us-west-2.amaz=
+onaws.com/DEV-AWS-MO-DevOps-C1/exercise-3.html#cb2-3" aria-hidden=3D"true" =
+tabindex=3D"-1"></a><span class=3D"fu">git</span> push origin main</span></=
+code></pre><button class=3D"btn copybtn" data-clipboard-target=3D"#codebloc=
+k1"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-=
+2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg" width=3D"13" alt=
+=3D"Copy to clipboard"></button></div></li>
+</ol>
+<h2 id=3D"task-2-running-the-unit-tests-in-codebuild">Task 2: Running the u=
+nit tests in CodeBuild</h2>
+<p>In this task, you use CodeBuild to run tests and the console to view the=
+ log output.</p>
+<ol type=3D"1">
+<li><p>At the top left, choose the <strong>AWS Cloud9</strong> icon and cho=
+ose <strong>Go To Your Dashboard</strong>.</p></li>
+<li><p>Search for and choose <strong>CodeCommit</strong>.</p></li>
+<li><p>In the AWS CodeCommit navigation pane, choose <strong>Repositories</=
+strong>.</p></li>
+<li><p>In the <strong>Repositories</strong> pane, open the <strong>trivia-a=
+pp</strong> repository.</p></li>
+<li><p>View the commit that was pushed from <strong>AWS Cloud9</strong> by =
+going to the navigation pane and choosing <strong>Commits</strong>.</p></li=
+>
+<li><p>In the navigation pane, expand <strong>Build</strong> and then choos=
+e <strong>Build projects</strong>.</p></li>
+<li><p>Choose <strong>Create build project</strong> and configure the follo=
+wing settings.</p>
+<ul>
+<li><strong>Project name</strong>: <code>trivia-unittests</code></li>
+<li><strong>Repository</strong>: <code>trivia-app</code></li>
+<li><strong>Branch</strong>: <em>main</em></li>
+<li><strong>Operating system</strong>: <em>Ubuntu</em></li>
+<li><strong>Runtime(s)</strong>: <em>Standard</em></li>
+<li><strong>Image</strong>: <em>aws/codebuild/standard:5.0</em></li>
+<li><strong>Build specifications</strong>: Keep <em>Use a buildspec file</e=
+m> selected</li>
+<li><strong>Buildspec name - optional</strong>: <code>buildspecs/unittests.=
+yaml</code></li>
+</ul></li>
+<li><p>Choose <strong>Create build project</strong>.</p></li>
+<li><p>Choose <strong>Start build</strong>.</p></li>
+<li><p>To see the build output, choose <strong>Tail logs</strong>.</p></li>
+<li><p>When the build shows as <em>Succeeded</em>, close the log window by =
+choosing <strong>Close</strong> (at the bottom right of the window).</p></l=
+i>
+<li><p>Choose the <strong>Reports</strong> tab.</p></li>
+<li><p>View the <em>Pass rate</em> by selecting the <strong>Test</strong> r=
+eport, or the <em>Line coverage</em> and <em>Branch coverage</em> by select=
+ing the <strong>Code coverage</strong> report.</p></li>
+</ol>
+
+
+<footer>
+    <p>=C2=A9 2021 Amazon Web Services, Inc. or its affiliates. All rights =
+reserved. This work may not be reproduced or redistributed, in whole or in =
+part, without prior written permission from Amazon Web Services, Inc. Comme=
+rcial copying, lending, or selling is prohibited. Corrections, feedback, or=
+ other questions? Contact us at <a href=3D"https://support.aws.amazon.com/#=
+/contacts/aws-training" target=3D"_blank">https://support.aws.amazon.com/#/=
+contacts/aws-training</a>. All trademarks are the property of their owners.=
+</p>
+</footer>
+
+</body></html>
+------MultipartBoundary--8RnT8wY9wogOrxLNGrfaGpoCOOVuPb1kgLYayFJbfM----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-e97f5f9c-c24a-4d70-8f99-4b50c4383518@mhtml.blink
+
+@charset "utf-8";
+
+html, body, footer { font-family: "Open Sans", "Helvetica Neue", Helvetica,=
+ Arial, sans-serif; margin: 1em; }
+
+img:not(.clipboard) { max-width: 100%; height: auto; width: auto; }
+
+button.copybtn { transition: opacity 0.3s ease-in-out 0s; opacity: 0; paddi=
+ng: 2px 6px; position: absolute; right: 4px; top: 4px; }
+
+div.sourceCode:hover .copybtn, div.sourceCode .copybtn:focus { opacity: 0.3=
+; }
+
+div.sourceCode .copybtn:hover { opacity: 1; }
+
+div.sourceCode { position: relative; }
+
+.xmodule_display.xmodule_HtmlBlock ol { padding: 0px 0px 0px 2em !important=
+; }
+
+.xmodule_display.xmodule_HtmlBlock ul { padding: 0px 0px 0px 2em !important=
+; }
+
+code { border-radius: 4px; padding: 2px 4px !important; background-color: r=
+gb(238, 238, 238) !important; }
+
+pre code { display: block; overflow-x: auto; margin: 0px 0px 10px; font-siz=
+e: 13px; line-height: 1.42857; word-break: break-all; overflow-wrap: break-=
+word; border: 1px solid rgb(204, 204, 204); border-radius: 4px; white-space=
+: pre; padding: 9.5px !important; background-color: rgb(245, 245, 245) !imp=
+ortant; }
+
+pre code span.al { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.an { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.at { color: rgb(125, 144, 41); }
+
+pre code span.bn { color: rgb(64, 160, 112); }
+
+pre code span.bu { color: rgb(6, 40, 126); }
+
+pre code span.cf { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.ch { color: rgb(64, 112, 160); }
+
+pre code span.cn { color: rgb(136, 0, 0); }
+
+pre code span.co { color: rgb(96, 160, 176); font-style: italic; }
+
+pre code span.cv { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.do { color: rgb(186, 33, 33); font-style: italic; }
+
+pre code span.dt { color: rgb(144, 32, 0); }
+
+pre code span.dv { color: rgb(64, 160, 112); }
+
+pre code span.er { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.ex { color: rgb(6, 40, 126); }
+
+pre code span.fl { color: rgb(64, 160, 112); }
+
+pre code span.fu { color: rgb(6, 40, 126); }
+
+pre code span.im { }
+
+pre code span.in { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.kw { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.op { color: rgb(102, 102, 102); }
+
+pre code span.ot { color: rgb(0, 112, 32); }
+
+pre code span.pp { color: rgb(188, 122, 0); }
+
+pre code span.sc { color: rgb(64, 112, 160); }
+
+pre code span.ss { color: rgb(187, 102, 136); }
+
+pre code span.st { color: rgb(64, 112, 160); }
+
+pre code span.va { color: rgb(25, 23, 124); }
+
+pre code span.vs { color: rgb(64, 112, 160); }
+
+pre code span.wa { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+footer { padding-top: 3em; font-style: italic; font-size: 0.9em; }
+------MultipartBoundary--8RnT8wY9wogOrxLNGrfaGpoCOOVuPb1kgLYayFJbfM----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C1/images/clipboard.svg
+
+<svg height=3D"1024" width=3D"896" xmlns=3D"http://www.w3.org/2000/svg">
+  <path d=3D"M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448=
+L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H=
+128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V1=
+92c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64=
+ 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-2=
+9-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+</svg>=0A
+------MultipartBoundary--8RnT8wY9wogOrxLNGrfaGpoCOOVuPb1kgLYayFJbfM------
