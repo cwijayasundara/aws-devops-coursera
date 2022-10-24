@@ -1,0 +1,378 @@
+From: <Saved by Blink>
+Snapshot-Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C2/exercise-3.html
+Subject: Exercise 3: AWS CloudFormation
+Date: Mon, 24 Oct 2022 15:42:46 -0000
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	type="text/html";
+	boundary="----MultipartBoundary--W8uGEBBzVHssVAJTORXlSbOa8nNqpKLvv7FVjlRESZ----"
+
+
+------MultipartBoundary--W8uGEBBzVHssVAJTORXlSbOa8nNqpKLvv7FVjlRESZ----
+Content-Type: text/html
+Content-ID: <frame-BA95A5CB97118E6D41764ECAE25261DC@mhtml.blink>
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C2/exercise-3.html
+
+<!DOCTYPE html><html xmlns=3D"http://www.w3.org/1999/xhtml" lang=3D"" xml:l=
+ang=3D"" data-lt-installed=3D"true"><head><meta http-equiv=3D"Content-Type"=
+ content=3D"text/html; charset=3DUTF-8"><link rel=3D"stylesheet" type=3D"te=
+xt/css" href=3D"cid:css-7b4623c1-384f-490f-9d4b-a9be06f3b3fb@mhtml.blink" /=
+>
+ =20
+  <meta name=3D"generator" content=3D"pandoc">
+  <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D=
+1.0, user-scalable=3Dyes">
+  <title>Exercise 3: AWS CloudFormation</title>
+ =20
+ =20
+
+
+</head><body>
+<p><em>[version_1.0]</em></p>
+<div style=3D"background-color: #FFD2D2; padding: 15px; margin-bottom: 25px=
+">
+<h3>
+<span class=3D"fa fa-info-circle"></span> Note
+</h3>
+<p>The exercises in this course will have an associated charge in your AWS =
+account. In this exercise, you will create the following resources:</p>
+<ul>
+<li>Amazon Simple Storage Service (Amazon S3) bucket</li>
+<li>AWS CodeDeploy application and deployment group</li>
+<li>AWS CodeCommit repository</li>
+<li>AWS Identity and Access Management (IAM) roles</li>
+<li>Amazon Elastic Compute Cloud (Amazon EC2) instance</li>
+<li>AWS CodePipeline pipeline</li>
+</ul>
+<p><strong>This final exercise includes instructions to delete all the reso=
+urces that you created in the course exercises.</strong></p>
+<p>Familiarize yourself with <strong><a href=3D"https://aws.amazon.com/s3/p=
+ricing/" target=3D"_blank">Amazon S3 pricing</a></strong>, <strong><a href=
+=3D"https://aws.amazon.com/codedeploy/pricing/" target=3D"_blank">AWS CodeD=
+eploy pricing</a></strong>, <strong><a href=3D"https://aws.amazon.com/codec=
+ommit/pricing/" target=3D"_blank">AWS CodeCommit pricing</a></strong>, <str=
+ong><a href=3D"https://aws.amazon.com/codepipeline/pricing/" target=3D"_bla=
+nk">AWS CodePipeline pricing</a></strong>, <strong><a href=3D"https://aws.a=
+mazon.com/ec2/pricing/" target=3D"_blank">Amazon EC2 pricing</a></strong>, =
+and the <strong><a href=3D"https://aws.amazon.com/free/" target=3D"_blank">=
+AWS Free Tier</a></strong>.</p>
+</div>
+<h1 id=3D"exercise-working-with-aws-cloudformation-and-aws-codepipeline">Ex=
+ercise: Working with AWS CloudFormation and AWS CodePipeline</h1>
+<p>In this exercise, you will use a provided CloudFormation template to set=
+ up the backend services such as CodePipeline, CodeCommit, CodeDeploy, and =
+CodeBuild. You will then upload new revisions to the pipeline.</p>
+<h2 id=3D"task-1-setting-up-the-backend-with-cloudformation">Task 1: Settin=
+g up the backend with CloudFormation</h2>
+<p>In this task, you deploy a CloudFormation stack that will set up the bac=
+kend architecture for this exercise.</p>
+<ol type=3D"1">
+<li><p>Download the following CloudFormation template: <a href=3D"https://a=
+ws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C2/download=
+s/final_pipeline.yaml" target=3D"_blank">final_pipeline.yaml</a></p></li>
+<li><p>In the AWS Management Console, choose <strong>Services</strong>, and=
+ search for and choose <strong>CloudFormation</strong>.</p></li>
+<li><p>In the CloudFormation console, choose <strong>Create stack</strong> =
+and choose <strong>With new resources (standard)</strong>.</p></li>
+<li><p>In the <strong>Specify template</strong> page, select <strong>Upload=
+ a template file</strong> and select <strong>Choose file</strong>.</p></li>
+<li><p>Upload the <code>final_pipeline.yaml</code> file by opening the dire=
+ctory where you downloaded it, choosing the <code>final_pipeline.yaml</code=
+> file, and choosing <strong>Open</strong>.</p></li>
+<li><p>Choose <strong>Next</strong>.</p></li>
+<li>In the <strong>Specify stack details</strong> page, enter the following=
+ values.</li>
+</ol>
+<ul>
+<li><strong>Stack name</strong>: <code>final-pipeline</code></li>
+<li><strong>Parameters &gt; CodePipelineName</strong>: <code>final-pipeline=
+</code></li>
+</ul>
+<ol type=3D"1">
+<li><p>Choose <strong>Next</strong>.</p></li>
+<li><p>Skip <strong>Configure stack options</strong> by choosing <strong>Ne=
+xt</strong>.</p></li>
+<li><p>At the bottom of the <strong>Review final-pipeline</strong> page, se=
+lect <strong>I acknowledge that AWS CloudFormation might create IAM resourc=
+es with custom names</strong> and choose <strong>Create stack</strong>.</p>=
+</li>
+</ol>
+<p><em>Creating the stack can take some time to complete. Allow the stack t=
+o finish before you continue to the next task</em>.</p>
+<p>The template will create a CodeDeploy application (<code>CodePipeBlogSam=
+pleApplication</code>), and a deployment group (<code>MyDemoDeploymentGroup=
+</code>). The stack also contains the following resources: * CodeCommit rep=
+ository (<code>NewsletterRepo</code>) * CodePipeline pipeline (<code>final-=
+pipeline</code>) * S3 bucket for the pipeline artifacts * EC2 instance (<co=
+de>CodePipelineBlog</code>) * CodeBuild project (<code>NewsletterBuild</cod=
+e>)</p>
+<h2 id=3D"task-2-viewing-deployment-events-in-codepipeline">Task 2: Viewing=
+ deployment events in CodePipeline</h2>
+<p>In this task, you view the deployment events in the pipeline.</p>
+<ol type=3D"1">
+<li><p>In the console, use the <strong>Services</strong> search box to find=
+ and open <strong>AWS CodePipeline</strong>.</p></li>
+<li><p>Under <strong>Pipelines</strong>, choose <code>final-pipeline</code>=
+.</p></li>
+<li><p>Under <strong>Deploy</strong>, choose <strong>Details</strong>.</p><=
+/li>
+<li><p>In the details page, scroll to the bottom, and under <strong>Deploym=
+ent lifecycle events</strong>, choose the <strong>Instance ID</strong>.</p>=
+</li>
+<li><p>Open the instance details pane by selecting the check box for the <c=
+ode>CodePipelineBlog</code> instance.</p></li>
+<li><p>In the <strong>Instance summary</strong> page, copy the <strong>Publ=
+ic IPv4 DNS</strong> address and paste it in a browser.</p></li>
+</ol>
+<p>You should see the blog, which was deployed automatically using the Clou=
+dFormation template.</p>
+<ol type=3D"1">
+<li><p>Switch back to the <strong>CodeDeploy</strong> tab.</p></li>
+<li><p>In the navigation pane, expand <strong>Pipeline</strong> and choose =
+<strong>Pipelines</strong>.</p></li>
+<li><p>Choose the <code>final-pipeline</code> link.</p></li>
+<li><p>Under <strong>AcceptanceTest</strong>, choose <strong>Details</stron=
+g>.</p></li>
+</ol>
+<p>Review the details and note all the acceptance tests (which are in blue)=
+. These tests were used to verify that the application was deployed and tes=
+ted successfully.</p>
+<h2 id=3D"task-3-committing-a-new-revision">Task 3: Committing a new revisi=
+on</h2>
+<p>In this task, you make a new revision to the blog website and commit tho=
+se changes.</p>
+<ol type=3D"1">
+<li><p>Use the <strong>Services</strong> search box to find and open <stron=
+g>CloudShell</strong>. Wait for the shell to initialize.</p></li>
+<li><p>Inside the shell, run the following commands:</p>
+<p>Configure Git and clone the repository:</p>
+<div class=3D"sourceCode" id=3D"cb1"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock0"><code class=3D"sourceCode bash"><a class=3D"sourceLine" id=3D"cb=
+1-1" title=3D"1"><span class=3D"fu">git</span> config --global user.email <=
+span class=3D"st">"YOUR_EMAIL"</span></a>
+<a class=3D"sourceLine" id=3D"cb1-2" title=3D"2"><span class=3D"fu">git</sp=
+an> config --global user.name <span class=3D"st">"YOUR_NAME"</span></a>
+<a class=3D"sourceLine" id=3D"cb1-3" title=3D"3"><span class=3D"fu">git</sp=
+an> clone codecommit://NewsletterRepo</a></code></pre><button class=3D"btn =
+copybtn" data-clipboard-target=3D"#codeblock0"><img class=3D"clipboard" src=
+=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOp=
+s-C2/images/clipboard.svg" width=3D"13" alt=3D"Copy to clipboard"></button>=
+</div>
+<p>Change the color of the horizontal rule (<code>&lt;hr&gt;</code> HTML ta=
+g) and the blog version number:</p>
+<div class=3D"sourceCode" id=3D"cb2"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock1"><code class=3D"sourceCode bash"><a class=3D"sourceLine" id=3D"cb=
+2-1" title=3D"1"><span class=3D"bu">cd</span> NewsletterRepo/</a>
+<a class=3D"sourceLine" id=3D"cb2-2" title=3D"2"><span class=3D"fu">sed</sp=
+an> -i <span class=3D"st">'s/#0000FF/#800080/g'</span> index.html</a>
+<a class=3D"sourceLine" id=3D"cb2-3" title=3D"3"><span class=3D"fu">sed</sp=
+an> -i <span class=3D"st">'s/Version 1/Version 2/g'</span> index.html</a></=
+code></pre><button class=3D"btn copybtn" data-clipboard-target=3D"#codebloc=
+k1"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-=
+2.amazonaws.com/DEV-AWS-MO-DevOps-C2/images/clipboard.svg" width=3D"13" alt=
+=3D"Copy to clipboard"></button></div>
+<p>View the changes:</p>
+<div class=3D"sourceCode" id=3D"cb3"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock2"><code class=3D"sourceCode bash"><a class=3D"sourceLine" id=3D"cb=
+3-1" title=3D"1"><span class=3D"fu">git</span> diff</a></code></pre><button=
+ class=3D"btn copybtn" data-clipboard-target=3D"#codeblock2"><img class=3D"=
+clipboard" src=3D"https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DE=
+V-AWS-MO-DevOps-C2/images/clipboard.svg" width=3D"13" alt=3D"Copy to clipbo=
+ard"></button></div>
+<p>Create a commit and push the changes:</p>
+<div class=3D"sourceCode" id=3D"cb4"><pre class=3D"sourceCode bash" id=3D"c=
+odeblock3"><code class=3D"sourceCode bash"><a class=3D"sourceLine" id=3D"cb=
+4-1" title=3D"1"><span class=3D"fu">git</span> add *</a>
+<a class=3D"sourceLine" id=3D"cb4-2" title=3D"2"><span class=3D"fu">git</sp=
+an> commit -m <span class=3D"st">"version 2 new hr color"</span></a>
+<a class=3D"sourceLine" id=3D"cb4-3" title=3D"3"><span class=3D"fu">git</sp=
+an> push</a></code></pre><button class=3D"btn copybtn" data-clipboard-targe=
+t=3D"#codeblock3"><img class=3D"clipboard" src=3D"https://aws-tc-largeobjec=
+ts.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C2/images/clipboard.svg" wi=
+dth=3D"13" alt=3D"Copy to clipboard"></button></div></li>
+<li><p>In the console, search for and open <strong>CodePipeline</strong>.</=
+p></li>
+</ol>
+<p>You should see a pipeline execution that was started by the new commit. =
+<!-- This is always called an execution https://docs.aws.amazon.com/codepip=
+eline/latest/userguide/concepts-how-it-works.html --></p>
+<ol type=3D"1">
+<li>View the details by choosing the link for the most recent pipeline exec=
+ution.</li>
+</ol>
+<p>The pipeline execution might take a few minutes to finish.</p>
+<ol type=3D"1">
+<li><p>After <code>AcceptanceTest</code> is complete, search for and open <=
+strong>EC2</strong>.</p></li>
+<li><p>If you are not in the <strong>Instances</strong> page, from the navi=
+gation pane, expand <strong>Instances</strong> and then choose <strong>Inst=
+ances</strong>.</p></li>
+<li><p>Open the instance details section by selecting the check box for the=
+ <code>CodePipelineBlog</code> instance.</p></li>
+<li><p>Copy the <strong>Public IPv4 address</strong> and paste it in a new =
+browser tab.</p></li>
+</ol>
+<p>You should see the new changes that you made reflected in the blog.</p>
+<h2 id=3D"deleting-all-exercise-resources">Deleting all exercise resources<=
+/h2>
+<p>Congratulations! You have successfully completed the course project. In =
+this task, you delete the AWS resources that you created for this project.<=
+/p>
+<ol type=3D"1">
+<li>Open the <strong>Amazon S3</strong> console.</li>
+</ol>
+<ul>
+<li>Empty and delete the bucket that you created for the previous exercise.=
+ It might have a name similar to: <strong>devops-exercise2-&lt;your_initial=
+s&gt;-&lt;random_number&gt;</strong></li>
+<li>Empty and delete the bucket with the name: <strong>final-pipeline-codep=
+ipelineartifactstores3bucket-&lt;random_string&gt;</strong>.</li>
+</ul>
+<ol type=3D"1">
+<li>Open the <strong>AWS CloudFormation</strong> console.</li>
+</ol>
+<ul>
+<li>Delete the <strong>final-pipeline</strong> stack.</li>
+</ul>
+<ol type=3D"1">
+<li>Open the <strong>Amazon EC2</strong> console.
+<ul>
+<li>Terminate the <strong>TEST-environment</strong> instance that you creat=
+ed in the previous exercise.</li>
+</ul></li>
+<li>Open the <strong>CodeDeploy</strong> console, and from the navigation p=
+ane, choose <strong>Applications</strong>.</li>
+</ol>
+<ul>
+<li>Delete <strong>TestApplication</strong> that you created in the previou=
+s exercise.</li>
+</ul>
+
+
+<footer>
+    <p>=C2=A9 2021 Amazon Web Services, Inc. or its affiliates. All rights =
+reserved. This work may not be reproduced or redistributed, in whole or in =
+part, without prior written permission from Amazon Web Services, Inc. Comme=
+rcial copying, lending, or selling is prohibited. Corrections, feedback, or=
+ other questions? Contact us at <a href=3D"https://support.aws.amazon.com/#=
+/contacts/aws-training" target=3D"_blank">https://support.aws.amazon.com/#/=
+contacts/aws-training</a>. All trademarks are the property of their owners.=
+</p>
+</footer>
+
+</body></html>
+------MultipartBoundary--W8uGEBBzVHssVAJTORXlSbOa8nNqpKLvv7FVjlRESZ----
+Content-Type: text/css
+Content-Transfer-Encoding: quoted-printable
+Content-Location: cid:css-7b4623c1-384f-490f-9d4b-a9be06f3b3fb@mhtml.blink
+
+@charset "utf-8";
+
+html, body, footer { font-family: "Open Sans", "Helvetica Neue", Helvetica,=
+ Arial, sans-serif; margin: 1em; }
+
+img:not(.clipboard) { max-width: 100%; height: auto; width: auto; }
+
+button.copybtn { transition: opacity 0.3s ease-in-out 0s; opacity: 0; paddi=
+ng: 2px 6px; position: absolute; right: 4px; top: 4px; }
+
+div.sourceCode:hover .copybtn, div.sourceCode .copybtn:focus { opacity: 0.3=
+; }
+
+div.sourceCode .copybtn:hover { opacity: 1; }
+
+div.sourceCode { position: relative; }
+
+.xmodule_display.xmodule_HtmlBlock ol { padding: 0px 0px 0px 2em !important=
+; }
+
+.xmodule_display.xmodule_HtmlBlock ul { padding: 0px 0px 0px 2em !important=
+; }
+
+code { border-radius: 4px; padding: 2px 4px !important; background-color: r=
+gb(238, 238, 238) !important; }
+
+pre code { display: block; overflow-x: auto; margin: 0px 0px 10px; font-siz=
+e: 13px; line-height: 1.42857; word-break: break-all; overflow-wrap: break-=
+word; border: 1px solid rgb(204, 204, 204); border-radius: 4px; white-space=
+: pre; padding: 9.5px !important; background-color: rgb(245, 245, 245) !imp=
+ortant; }
+
+pre code span.al { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.an { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.at { color: rgb(125, 144, 41); }
+
+pre code span.bn { color: rgb(64, 160, 112); }
+
+pre code span.bu { color: rgb(6, 40, 126); }
+
+pre code span.cf { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.ch { color: rgb(64, 112, 160); }
+
+pre code span.cn { color: rgb(136, 0, 0); }
+
+pre code span.co { color: rgb(96, 160, 176); font-style: italic; }
+
+pre code span.cv { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.do { color: rgb(186, 33, 33); font-style: italic; }
+
+pre code span.dt { color: rgb(144, 32, 0); }
+
+pre code span.dv { color: rgb(64, 160, 112); }
+
+pre code span.er { color: rgb(255, 0, 0); font-weight: bold; }
+
+pre code span.ex { color: rgb(6, 40, 126); }
+
+pre code span.fl { color: rgb(64, 160, 112); }
+
+pre code span.fu { color: rgb(6, 40, 126); }
+
+pre code span.im { }
+
+pre code span.in { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+pre code span.kw { color: rgb(0, 112, 32); font-weight: bold; }
+
+pre code span.op { color: rgb(102, 102, 102); }
+
+pre code span.ot { color: rgb(0, 112, 32); }
+
+pre code span.pp { color: rgb(188, 122, 0); }
+
+pre code span.sc { color: rgb(64, 112, 160); }
+
+pre code span.ss { color: rgb(187, 102, 136); }
+
+pre code span.st { color: rgb(64, 112, 160); }
+
+pre code span.va { color: rgb(25, 23, 124); }
+
+pre code span.vs { color: rgb(64, 112, 160); }
+
+pre code span.wa { color: rgb(96, 160, 176); font-weight: bold; font-style:=
+ italic; }
+
+footer { padding-top: 3em; font-style: italic; font-size: 0.9em; }
+------MultipartBoundary--W8uGEBBzVHssVAJTORXlSbOa8nNqpKLvv7FVjlRESZ----
+Content-Type: image/svg+xml
+Content-Transfer-Encoding: quoted-printable
+Content-Location: https://aws-tc-largeobjects.s3.us-west-2.amazonaws.com/DEV-AWS-MO-DevOps-C2/images/clipboard.svg
+
+<svg height=3D"1024" width=3D"896" xmlns=3D"http://www.w3.org/2000/svg">
+  <path d=3D"M128 768h256v64H128v-64z m320-384H128v64h320v-64z m128 192V448=
+L384 640l192 192V704h320V576H576z m-288-64H128v64h160v-64zM128 704h160v-64H=
+128v64z m576 64h64v128c-1 18-7 33-19 45s-27 18-45 19H64c-35 0-64-29-64-64V1=
+92c0-35 29-64 64-64h192C256 57 313 0 384 0s128 57 128 128h192c35 0 64 29 64=
+ 64v320h-64V320H64v576h640V768zM128 256h512c0-35-29-64-64-64h-64c-35 0-64-2=
+9-64-64s-29-64-64-64-64 29-64 64-29 64-64 64h-64c-35 0-64 29-64 64z" />
+</svg>=0A
+------MultipartBoundary--W8uGEBBzVHssVAJTORXlSbOa8nNqpKLvv7FVjlRESZ------
